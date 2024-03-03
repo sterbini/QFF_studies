@@ -1,0 +1,65 @@
+config_particles:
+  r_min: 2.0
+  r_max: 10.0
+  n_r: 256
+  n_angles: 5
+  n_split: 15
+
+config_mad:
+  # Links to be made for tools and scripts
+  links:
+    acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII
+
+  # Optics file
+  optics_file: acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.34 #
+
+  # Beam parameters
+  beam_config:
+    lhcb1:
+      beam_energy_tot: 6800 # [GeV]
+    lhcb2:
+      beam_energy_tot: 6800 # [GeV]
+
+  # Enable machine imperfections
+  enable_imperfections: false
+
+  # Enable knob synthesis (for coupling correction, if no imperfections)
+  enable_knob_synthesis: true
+
+  # Rename the coupling knobs to avoid conflict between b1 and b2
+  # (for hllhc using old fortran code to generate the knobs)
+  rename_coupling_knobs: true
+
+  # Optics version, for choice of correction algorithms
+  # (ver_lhc_run or ver_hllhc_optics)
+  ver_hllhc_optics: null
+  ver_lhc_run: 3.0
+
+  allow_thick: true
+
+  # Parameters for machine imperfections
+  pars_for_imperfections:
+    par_myseed: 0
+    par_correct_for_D2: 0
+    par_correct_for_MCBX: 0
+    par_on_errors_LHC: 0
+    par_off_errors_Q4_inIP15: 0
+    par_off_errors_Q5_inIP15: 0
+    par_on_errors_MBH: 0
+    par_on_errors_Q4: 0
+    par_on_errors_D2: 0
+    par_on_errors_D1: 0
+    par_on_errors_IT: 0
+    par_on_errors_MCBRD: 0
+    par_on_errors_MCBXF: 0
+    par_on_errors_NLC: 0
+    par_write_errortable: 0
+
+# Context for the simulation
+context: "cpu" # 'cupy' # opencl
+
+# Log
+log_file: "tree_maker.log"
+
+# To make some specifics checks
+sanity_checks: true
