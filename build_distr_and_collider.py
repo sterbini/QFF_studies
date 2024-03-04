@@ -219,7 +219,8 @@ def build_distr_and_collider(config_file="config.yaml"):
 
     # Save collider to json
     os.makedirs("collider", exist_ok=True)
-    collider.to_json("collider/collider_45.json")
+    optics_number = config_mad["optics_file"].split("/")[-1].split(".")[1]
+    collider.to_json(f"collider/collider_{optics_number}.json")
 
     # Tag end of the job
     tree_maker_tagging(configuration, tag="completed")

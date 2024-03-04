@@ -11,10 +11,25 @@ if False:
         build_distr_and_collider()
 
 # %%
-collider = xt.Multiline.from_json('./collider/collider_43.json')
-
 my_beam = 'b2' # this is the beam 4 in madx sense
 my_optics = 30 # beta* at which the knob is matched
+
+if my_optics==30:
+        collider = xt.Multiline.from_json('./collider/collider_43.json')
+elif my_optics==28:
+        collider = xt.Multiline.from_json('./collider/collider_44.json')
+elif my_optics==26:
+        collider = xt.Multiline.from_json('./collider/collider_45.json')
+elif my_optics==24:
+        collider = xt.Multiline.from_json('./collider/collider_46.json')
+elif my_optics==22:
+        collider = xt.Multiline.from_json('./collider/collider_47.json')
+elif my_optics==20:
+        collider = xt.Multiline.from_json('./collider/collider_48.json')
+elif my_optics==60:
+        collider = xt.Multiline.from_json('./collider/collider_34.json')
+else:
+        raise ValueError('The optics is not available')
 
 # remove the my_list the elements mbas2.1l1 and mbas2.1r1 from collider 
 s_ip = collider[f'lhc{my_beam}'].get_s_position(at_elements='ip1')
