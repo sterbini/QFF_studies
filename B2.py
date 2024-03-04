@@ -1,10 +1,10 @@
 # %%
 #/afs/cern.ch/eng/lhc/optics/runIII/RunIII_dev/Proton_2024/README
 # opticsfile.43
+import json
 from matplotlib import pyplot as plt
 import xtrack as xt
 import numpy as np
-# import xobjects as xo
 
 if False:
         from build_distr_and_collider import *
@@ -641,8 +641,55 @@ for  match_ip1 in [True, False]:
                 my_ip = 5
                 my_tct = 'tctph.4r5.b2'
                 my_i = 'i_wire_ip5.b2'
-
+ 
         opt.step(10)
+
+        delta_dict = {}
+        k0_dict = {}
+        k_dict = {}
+        kmin = {}
+        kmax = {}
+        kmax_relative_variation_percent = {}
+
+
+        for ii in variables_list:
+                name = ii.split('_delta')[0]
+                k0_name = name+'_0' 
+                delta_dict[name] = line.vars[ii]._get_value()
+
+                k0_dict[name] = line.vars[k0_name]._get_value()
+                k_dict[name] = k0_dict[name]+delta_dict[name]
+                low_limit = line.vars[limits_dict[name][0]]._get_value()/6800/3.3356
+                high_limit = line.vars[limits_dict[name][1]]._get_value()/6800/3.3356
+                kmin[name] = low_limit
+                kmax[name] = high_limit
+                assert  kmin[name]<np.abs(k_dict[name])< kmax[name]
+                kmax_relative_variation_percent[name] = delta_dict[name]/k0_dict[name]*100
+
+        knob_dict = {}
+        knob_dict['k_delta'] = delta_dict
+        
+        knob_dict['my_ip'] = my_ip
+        knob_dict['my_optics'] = my_optics
+        knob_dict['my_beam'] = my_beam
+        knob_dict['i_wire_ip1.b2'] = line.vars['i_wire_ip1.b2']._get_value()
+        knob_dict['i_wire_ip5.b2'] = line.vars['i_wire_ip5.b2']._get_value()
+        knob_dict['tct_opening_in_sigma'] = tct_opening_in_sigma
+        knob_dict['sigma_y_at_tctpv_4r1_b2'] = sigma_y_at_tctpv_4r1_b2
+        knob_dict['sigma_x_at_tctph_4r5_b2'] = sigma_x_at_tctph_4r5_b2
+        knob_dict['wire_retraction'] = wire_retraction
+        knob_dict['d_wire_ip1.b2'] = line.vars['d_wire_ip1.b2']._get_value()
+        knob_dict['d_wire_ip5.b2'] = line.vars['d_wire_ip5.b2']._get_value()
+
+        knob_dict['k_0'] = k0_dict
+        knob_dict['k'] = k_dict
+        knob_dict['kmin'] = kmin
+        knob_dict['kmax'] = kmax
+        knob_dict['kmax_relative_variation_percent'] = kmax_relative_variation_percent
+
+        with open(f'knob_dict_350A_8sigma@30cm_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
+                json.dump(knob_dict, f, indent=4)
+
 
         tw_b2 = line.twiss(method='4d')
         print('After matching')
@@ -769,11 +816,12 @@ tw_b2_wire_ip1_on = line.twiss(method='4d')
 plt.plot(tw_b2_wire_ip1_on['mux'], (tw_b2_wire_ip1_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
 
 plt.plot(tw_b2_wire_ip1_on['muy'], (tw_b2_wire_ip1_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
-plt.ylabel('[m]')
+plt.ylabel('[$\sigma_{coll}$]')
 plt.legend()
 # show ticks of the IPs only
 #plt.xticks([tw_b2_wire_ip1_on['s','ip1'], tw_b2_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
 plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
+plt.xlabel('x and y phase [2$\pi$]')
 
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
@@ -806,7 +854,8 @@ tw_b2_wire_ip5_on = line.twiss(method='4d')
 
 plt.plot(tw_b2_wire_ip5_on['mux'], (tw_b2_wire_ip5_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
 plt.plot(tw_b2_wire_ip5_on['muy'], (tw_b2_wire_ip5_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
-plt.ylabel('[m]')
+plt.ylabel('[$\sigma_{coll}$]')
+plt.xlabel('x and y phase [2$\pi$]')
 plt.legend()
 # show ticks of the IPs only
 #plt.xticks([tw_b2_wire_ip5_on['mux','ip1'], tw_b2_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
