@@ -794,7 +794,7 @@ plt.ylabel('[m]')
 plt.legend()
 # show ticks of the IPs only
 #plt.xticks([tw_b2_wire_ip5_on['mux','ip1'], tw_b2_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
-plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
+plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x5 = 160')
 
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
