@@ -229,7 +229,7 @@ plt.axvline(x=tw_b2['s','bbwc.e.4r5.b2']- tw_b2.rows['ip5']['s'],
              label='bbwc.e.4r5.b2')
             
 plt.xlim(-300, 300)
-collider.vars['on_sep1'] = 0.0
+collider.vars['on_sep5'] = 0.0
 plt.xlabel('s [m]')
 plt.ylabel('[m]')
 plt.legend()
