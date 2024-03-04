@@ -635,7 +635,7 @@ for  match_ip1 in [True, False]:
         kmin = {}
         kmax = {}
         k_relative_variation_percent = {}
-        percentage_of_kmax = {}
+        kmax_relative_variation_percent = {}
 
         for ii in variables_list:
                 name = ii.split('_delta')[0]
@@ -650,7 +650,7 @@ for  match_ip1 in [True, False]:
                 kmax[name] = high_limit
                 assert  kmin[name]<np.abs(k_dict[name])< kmax[name]
                 k_relative_variation_percent[name] = delta_dict[name]/k0_dict[name]*100
-                percentage_of_kmax[name] = np.abs(k_dict[name])/kmax[name]*100
+                kmax_relative_variation_percent[name] = np.abs( delta_dict[name])/kmax[name]*100
         knob_dict = {}
         knob_dict['k_delta'] = delta_dict
         
@@ -671,7 +671,7 @@ for  match_ip1 in [True, False]:
         knob_dict['kmin'] = kmin
         knob_dict['kmax'] = kmax
         knob_dict['k_relative_variation_percent'] = k_relative_variation_percent
-        knob_dict['percentage_of_kmax'] = percentage_of_kmax
+        knob_dict['kmax_relative_variation_percent'] = kmax_relative_variation_percent
 
         with open(f'knob_dict_350A_8sigma@30cm_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
                 json.dump(knob_dict, f, indent=4)
