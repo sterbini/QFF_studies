@@ -441,10 +441,10 @@ my_k_list = [
            ]
 
 # from /afs/cern.ch/eng/lhc/optics/runIII/LHC_LS2_2021-07-02.seq
-limits_dict = { 'kq5.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq5.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq6.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq6.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
+limits_dict = { 'kq5.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
+                'kq5.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq7.l1b2': ['kmin_mqm','kmax_mqm'], # MQM
                 'kq7.r1b2': ['kmin_mqm','kmax_mqm'], # MQM
                 'kq8.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
@@ -458,10 +458,10 @@ limits_dict = { 'kq5.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
                 'kqt13.r1b2': ['kmin_mqt','kmax_mqt'], # MQT
                 'kq4.l5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
                 'kq4.r5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
-                'kq5.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq5.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq6.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq6.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq5.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq5.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq7.l5b2': ['kmin_mqm','kmax_mqm'], # MQM
                 'kq7.r5b2': ['kmin_mqm','kmax_mqm'], # MQM
                 'kq8.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
@@ -583,22 +583,22 @@ for  match_ip1 in [True, False]:
                 print(tw_b2.qx, tw_b2.qy)
         
                 variables_dict = {
-                                'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq6.r5b2_delta': {'limits': get_limits('kq6.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.1),'step': 1e-8},
-                                'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.2),'step': 1e-8},
-                                'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.2),'step': 1e-8},
-                                'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.2),'step': 1e-8},
+                                'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq6.r5b2_delta': {'limits': get_limits('kq6.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.05),'step': 1e-8},
+                                'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.05),'step': 1e-8},
+                                'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.1),'step': 1e-8},
+                                'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.1),'step': 1e-8},
+                                'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.1),'step': 1e-8},
                                 }      
 
 
-                variables_list = [#'kq4.r5b2_delta', 
+                variables_list = ['kq4.r5b2_delta', 
                                 'kq5.r5b2_delta', 
-                                'kq6.r5b2_delta',
+                                #'kq6.r5b2_delta',
                                 'kq7.r5b2_delta',
                                 'kq8.r5b2_delta',
                                 'kq9.r5b2_delta',
@@ -620,7 +620,7 @@ for  match_ip1 in [True, False]:
                                 'betx','bety',
                                 'alfx','alfy',
                                 'dx',
-                                #'dpx',
+                                'dpx',
                                 ], value=tw_ref, at=xt.END),
                 ])
                 my_ip = 5
@@ -635,7 +635,7 @@ for  match_ip1 in [True, False]:
         kmin = {}
         kmax = {}
         k_relative_variation_percent = {}
-
+        percentage_of_kmax = {}
 
         for ii in variables_list:
                 name = ii.split('_delta')[0]
@@ -650,7 +650,7 @@ for  match_ip1 in [True, False]:
                 kmax[name] = high_limit
                 assert  kmin[name]<np.abs(k_dict[name])< kmax[name]
                 k_relative_variation_percent[name] = delta_dict[name]/k0_dict[name]*100
-
+                percentage_of_kmax[name] = np.abs(k_dict[name])/kmax[name]*100
         knob_dict = {}
         knob_dict['k_delta'] = delta_dict
         
@@ -671,6 +671,7 @@ for  match_ip1 in [True, False]:
         knob_dict['kmin'] = kmin
         knob_dict['kmax'] = kmax
         knob_dict['k_relative_variation_percent'] = k_relative_variation_percent
+        knob_dict['percentage_of_kmax'] = percentage_of_kmax
 
         with open(f'knob_dict_350A_8sigma@30cm_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
                 json.dump(knob_dict, f, indent=4)
