@@ -181,6 +181,26 @@ plt.ylabel('[m]')
 plt.legend()
 
 # %%
+# set on_x1 to 160
+collider.vars['on_x5'] = 160.0
+tw_b2 = line.twiss(method='4d')
+plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['x'], label='x')
+plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['y'], label='y')
+
+plt.axvline(x=tw_b2['s','bbwc.e.4r5.b2']- tw_b2.rows['ip5']['s'],
+             color='r', 
+             linestyle='-',
+             label='bbwc.e.4r5.b2')
+            
+
+plt.xlim(-300, 300)
+#set back to 0
+collider.vars['on_x5'] = 0.0
+plt.xlabel('s [m]')
+plt.ylabel('[m]')
+plt.legend()
+
+# %%
 collider.vars['on_sep1'] = 1.0
 tw_b2 = line.twiss(method='4d')
 plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['x'], label='x')
@@ -191,13 +211,23 @@ plt.axvline(x=tw_b2['s','bbwc.b.4r1.b2']- tw_b2.rows['ip1']['s'],
              linestyle='-',
              label='bbwc.b.4r1.b2')
             
-plt.axvline(x=tw_b2['s','mqml.5r1.b2']- tw_b2.rows['ip1']['s'],
-             color='b', 
-             linestyle='--', label='mqml.5r1.b2')
+plt.xlim(-300, 300)
+collider.vars['on_sep1'] = 0.0
+plt.xlabel('s [m]')
+plt.ylabel('[m]')
+plt.legend()
 
-plt.axvline(x=tw_b2['s','mqml.5l1.b2']- tw_b2.rows['ip1']['s'],
-             color='b', 
-             linestyle='-.', label='mqml.5l1.b2')
+# %%
+collider.vars['on_sep5'] = 1.0
+tw_b2 = line.twiss(method='4d')
+plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['x'], label='x')
+plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['y'], label='y')
+
+plt.axvline(x=tw_b2['s','bbwc.e.4r5.b2']- tw_b2.rows['ip5']['s'],
+             color='r', 
+             linestyle='-',
+             label='bbwc.e.4r5.b2')
+            
 plt.xlim(-300, 300)
 collider.vars['on_sep1'] = 0.0
 plt.xlabel('s [m]')
@@ -538,21 +568,34 @@ for  match_ip1 in [True, False]:
 
 
 
+                # variables_dict = {
+                #                 'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq6.l5b2_delta': {'limits': get_limits('kq6.l5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.005),'step': 1e-8},
+                #                 'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.05),'step': 1e-8},
+                #                 'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.05),'step': 1e-8},
+                #                 'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.05),'step': 1e-8},
+                #                 }       
+                
                 variables_dict = {
-                                'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.005),'step': 1e-8},
-                                'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.005),'step': 1e-8},
-                                'kq6.l5b2_delta': {'limits': get_limits('kq6.l5b2_delta', 0.005),'step': 1e-8},
-                                'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.005),'step': 1e-8},
-                                'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.005),'step': 1e-8},
-                                'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.005),'step': 1e-8},
-                                'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.005),'step': 1e-8},
-                                'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.05),'step': 1e-8},
-                                'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.05),'step': 1e-8},
-                                'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.05),'step': 1e-8},
-                                }       
+                                'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq6.l5b2_delta': {'limits': get_limits('kq6.l5b2_delta', 0.1),'step': 1e-8},
+                                'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.1),'step': 1e-8},
+                                'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.2),'step': 1e-8},
+                                'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.2),'step': 1e-8},
+                                'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.2),'step': 1e-8},
+                                }      
 
 
-                variables_list = ['kq4.r5b2_delta', 
+                variables_list = [#'kq4.r5b2_delta', 
                                 'kq5.r5b2_delta', 
                                 'kq6.l5b2_delta',
                                 'kq7.r5b2_delta',
@@ -588,7 +631,8 @@ for  match_ip1 in [True, False]:
         tw_b2 = line.twiss(method='4d')
         print('After matching')
         print(tw_b2.qx, tw_b2.qy)
-
+        
+        plt.figure()
         plt.plot(tw_b2.s, (tw_b2.betx-tw_ref.betx)/tw_ref.betx, label='$\Delta\\beta_x/\\beta_{x0}$')
         plt.plot(tw_b2.s, (tw_b2.bety-tw_ref.bety)/tw_ref.bety, label='$\Delta\\beta_y\\beta_{y0}$')
 
@@ -686,6 +730,8 @@ for ii in [my_ip]:
         plt.ylim(-.028, 0.028)
 
 # %%
+epsilon_geometric = epsilon_collimation/beta_rel_proton/gamma_rel_proton
+
 line.vars['i_wire_ip1.b2'] = 0
 line.vars['i_wire_ip5.b2'] = 0
 line.vars['co_x_wire_ip1.b2'] = 0
@@ -694,8 +740,8 @@ line.vars['co_x_wire_ip5.b2'] = 0
 line.vars['co_y_wire_ip5.b2'] = 0
 
 line.vars['on_x1'] = 160.0
+
 tw_b2 = line.twiss(method='4d')
-#plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['y'], label='y')
 
 line.vars['co_x_wire_ip1.b2'] = tw_b2['x', 'tctpv.4r1.b2']
 line.vars['co_y_wire_ip1.b2'] = tw_b2['y', 'tctpv.4r1.b2']
@@ -704,8 +750,56 @@ line.vars['co_y_wire_ip5.b2'] = tw_b2['y', 'tctph.4r5.b2']
 
 line.vars['i_wire_ip1.b2'] = 350.0
 tw_b2_wire_ip1_on = line.twiss(method='4d')
-plt.plot(tw_b2_wire_ip1_on['s']- tw_b2_wire_ip1_on.rows['ip1']['s'], tw_b2_wire_ip1_on['y']- tw_b2['y'], label='y')
+plt.plot(tw_b2_wire_ip1_on['mux'], (tw_b2_wire_ip1_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
 
-        
+plt.plot(tw_b2_wire_ip1_on['muy'], (tw_b2_wire_ip1_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
+plt.ylabel('[m]')
+plt.legend()
+# show ticks of the IPs only
+#plt.xticks([tw_b2_wire_ip1_on['s','ip1'], tw_b2_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
+plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
 
+line.vars['on_x1'] = 0.0
+line.vars['on_x5'] = 0.0
+line.vars['co_x_wire_ip1.b2'] = 0
+line.vars['co_y_wire_ip1.b2'] = 0
+line.vars['co_x_wire_ip5.b2'] = 0
+line.vars['co_y_wire_ip5.b2'] = 0
+
+
+
+# %%
+
+line.vars['i_wire_ip1.b2'] = 0
+line.vars['i_wire_ip5.b2'] = 0
+line.vars['co_x_wire_ip1.b2'] = 0
+line.vars['co_y_wire_ip1.b2'] = 0
+line.vars['co_x_wire_ip5.b2'] = 0
+line.vars['co_y_wire_ip5.b2'] = 0
+
+line.vars['on_x5'] = 160.0
+tw_b2 = line.twiss(method='4d')
+
+line.vars['co_x_wire_ip1.b2'] = tw_b2['x', 'tctpv.4r1.b2']
+line.vars['co_y_wire_ip1.b2'] = tw_b2['y', 'tctpv.4r1.b2']
+line.vars['co_x_wire_ip5.b2'] = tw_b2['x', 'tctph.4r5.b2']
+line.vars['co_y_wire_ip5.b2'] = tw_b2['y', 'tctph.4r5.b2']
+
+line.vars['i_wire_ip5.b2'] = 350.0
+tw_b2_wire_ip5_on = line.twiss(method='4d')
+
+plt.plot(tw_b2_wire_ip5_on['mux'], (tw_b2_wire_ip5_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
+plt.plot(tw_b2_wire_ip5_on['muy'], (tw_b2_wire_ip5_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
+plt.ylabel('[m]')
+plt.legend()
+# show ticks of the IPs only
+#plt.xticks([tw_b2_wire_ip5_on['mux','ip1'], tw_b2_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
+plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
+
+line.vars['on_x1'] = 0.0
+line.vars['on_x5'] = 0.0
+line.vars['co_x_wire_ip1.b2'] = 0
+line.vars['co_y_wire_ip1.b2'] = 0
+line.vars['co_x_wire_ip5.b2'] = 0
+line.vars['co_y_wire_ip5.b2'] = 0
 # %%
