@@ -581,26 +581,11 @@ for  match_ip1 in [True, False]:
                 tw_b2 = line.twiss(method='4d')
                 print('Before matching')
                 print(tw_b2.qx, tw_b2.qy)
-
-
-
-                # variables_dict = {
-                #                 'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq6.l5b2_delta': {'limits': get_limits('kq6.l5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.005),'step': 1e-8},
-                #                 'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.05),'step': 1e-8},
-                #                 'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.05),'step': 1e-8},
-                #                 'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.05),'step': 1e-8},
-                #                 }       
-                
+        
                 variables_dict = {
                                 'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.1),'step': 1e-8},
                                 'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.1),'step': 1e-8},
-                                'kq6.l5b2_delta': {'limits': get_limits('kq6.l5b2_delta', 0.1),'step': 1e-8},
+                                'kq6.r5b2_delta': {'limits': get_limits('kq6.r5b2_delta', 0.1),'step': 1e-8},
                                 'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.1),'step': 1e-8},
                                 'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.1),'step': 1e-8},
                                 'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.1),'step': 1e-8},
@@ -613,7 +598,7 @@ for  match_ip1 in [True, False]:
 
                 variables_list = [#'kq4.r5b2_delta', 
                                 'kq5.r5b2_delta', 
-                                'kq6.l5b2_delta',
+                                'kq6.r5b2_delta',
                                 'kq7.r5b2_delta',
                                 'kq8.r5b2_delta',
                                 'kq9.r5b2_delta',
