@@ -219,7 +219,7 @@ def build_distr_and_collider(config_file="config.yaml"):
 
     # Save collider to json
     os.makedirs("collider", exist_ok=True)
-    collider.to_json("collider/collider_34.json")
+    collider.to_json("collider/collider_45.json")
 
     # Tag end of the job
     tree_maker_tagging(configuration, tag="completed")

@@ -425,38 +425,39 @@ my_k_list = [
            'kqt13.r5b2',
            ]
 
-limits_dict = { 'kq5.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq5.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq6.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq6.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq7.l1b2': ['kmin_mqm','kmax_mqm'],
-                'kq7.r1b2': ['kmin_mqm','kmax_mqm'],
-                'kq8.l1b2': ['kmin_mqml','kmax_mqml'],
-                'kq8.r1b2': ['kmin_mqml','kmax_mqml'],
-                'kq9.l1b2': ['kmin_mqml','kmax_mqml'],
-                'kq9.r1b2': ['kmin_mqml','kmax_mqml'],
-                'kq10.l1b2': ['kmin_mqml', 'kmax_mqml'], 
-                'kq10.r1b2': ['kmin_mqml', 'kmax_mqml'], 
-                'kqtl11.r1b2': ['kmin_mqtli','kmax_mqtli'], 
-                'kqt12.r1b2': ['kmin_mqt','kmax_mqt'], 
-                'kqt13.r1b2': ['kmin_mqt','kmax_mqt'],
-                'kq4.l5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
-                'kq4.r5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
-                'kq5.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq5.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq6.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq6.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
-                'kq7.l5b2': ['kmin_mqm','kmax_mqm'],
-                'kq7.r5b2': ['kmin_mqm','kmax_mqm'],
-                'kq8.l5b2': ['kmin_mqml','kmax_mqml'],
-                'kq8.r5b2': ['kmin_mqml','kmax_mqml'],
-                'kq9.l5b2': ['kmin_mqml','kmax_mqml'],
-                'kq9.r5b2': ['kmin_mqml','kmax_mqml'],
-                'kq10.l5b2': ['kmin_mqml', 'kmax_mqml'], 
-                'kq10.r5b2': ['kmin_mqml', 'kmax_mqml'], 
-                'kqtl11.r5b2': ['kmin_mqtli','kmax_mqtli'], 
-                'kqt12.r5b2': ['kmin_mqt','kmax_mqt'], 
-                'kqt13.r5b2': ['kmin_mqt','kmax_mqt'],
+# from /afs/cern.ch/eng/lhc/optics/runIII/LHC_LS2_2021-07-02.seq
+limits_dict = { 'kq5.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq5.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq6.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq6.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq7.l1b2': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq7.r1b2': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq8.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq8.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq9.l1b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq9.r1b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq10.l1b2': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kq10.r1b2': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kqtl11.r1b2': ['kmin_mqtli','kmax_mqtli'], # MQTLI
+                'kqt12.r1b2': ['kmin_mqt','kmax_mqt'], # MQT
+                'kqt13.r1b2': ['kmin_mqt','kmax_mqt'], # MQT
+                'kq4.l5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq4.r5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq5.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq5.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq6.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq6.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq7.l5b2': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq7.r5b2': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq8.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq8.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq9.l5b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq9.r5b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq10.l5b2': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kq10.r5b2': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kqtl11.r5b2': ['kmin_mqtli','kmax_mqtli'], # MQTLI
+                'kqt12.r5b2': ['kmin_mqt','kmax_mqt'], #MQT
+                'kqt13.r5b2': ['kmin_mqt','kmax_mqt'], #MQT
                }
 
 def print_k_summary(my_k_list):
