@@ -326,8 +326,6 @@ bety_0 = tw_b1.bety
 betx_0_at_wire_ip1 = tw_b1['betx', 'bbwc.t.4l1.b1']
 bety_0_at_wire_ip1 = tw_b1['bety', 'bbwc.t.4l1.b1']
 
-
-
 # mu0 magnetic permeability
 mu0 = 4*np.pi*1e-7
 
