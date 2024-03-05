@@ -11,7 +11,7 @@ if False:
         build_distr_and_collider()
 
 # %%
-my_beam = 'b2' # this is the beam 4 in madx sense
+my_beam = 'b1' # this is the beam 4 in madx sense
 my_optics = 30 # beta* at which the knob is matched
 
 if my_optics==30:
@@ -41,9 +41,9 @@ line.element_dict['mbas2.1r1'] =xt.Drift(length=sol.length)
 
 # %%
 # Check of the tctpv center
-# position of the wire in the tctpv.4r1.b2 (center of the TCTPV)
-print('The wire in the TCTPV.4R1.B2 is at', line.get_s_position(f'tctpv.4r1.b2')-line.get_s_position(f'ip1'), 'm from the IP1.')
-print('The wire in the TCTPH.4R5.B2 is at', line.get_s_position(f'tctph.4r5.b2')-line.get_s_position(f'ip5'), 'm from the IP5.')
+# position of the wire in the tctpv.4l1.b1 (center of the TCTPV)
+print('The wire in the TCTPV.4L1.B1 is at', line.get_s_position(f'tctpv.4l1.b1')-line.get_s_position(f'ip1'), 'm from the IP1.')
+print('The wire in the TCTPH.4L5.B1 is at', line.get_s_position(f'tctph.4l5.b1')-line.get_s_position(f'ip5'), 'm from the IP5.')
 
 
 
@@ -57,7 +57,7 @@ line.vars[f'i_wire_ip5.{my_beam}'] = 0.0
 line.vars[f'd_wire_ip5.{my_beam}'] = 0.01
 
 # upper wire in IR1
-line.insert_element(name=f'bbwc.t.4r1.{my_beam}',
+line.insert_element(name=f'bbwc.t.4l1.{my_beam}',
                     element=xt.Wire(
                         L_phy=1, 
                         L_int=2,
@@ -65,9 +65,9 @@ line.insert_element(name=f'bbwc.t.4r1.{my_beam}',
                         xma=0.0, 
                         yma= 1 # very far from the beam
                         ),
-                    at=f'tctpv.4r1.{my_beam}')
+                    at=f'tctpv.4l1.{my_beam}')
 # bottom wire in IR1
-line.insert_element(name=f'bbwc.b.4r1.{my_beam}',
+line.insert_element(name=f'bbwc.b.4l1.{my_beam}',
                     element=xt.Wire(
                         L_phy=1, 
                         L_int=2, 
@@ -75,10 +75,10 @@ line.insert_element(name=f'bbwc.b.4r1.{my_beam}',
                         xma=0.0, 
                         yma=-1  # very far from the beam
                         ),
-                    at=f'tctpv.4r1.{my_beam}')
+                    at=f'tctpv.4l1.{my_beam}')
 
 # upper wire in IR5
-line.insert_element(name=f'bbwc.e.4r5.{my_beam}',
+line.insert_element(name=f'bbwc.e.4l5.{my_beam}',
                     element=xt.Wire(
                         L_phy=1, 
                         L_int=2,
@@ -86,9 +86,9 @@ line.insert_element(name=f'bbwc.e.4r5.{my_beam}',
                         xma=1, # very far from the beam
                         yma=0.0 
                         ),
-                    at=f'tctph.4r5.{my_beam}')
+                    at=f'tctph.4l5.{my_beam}')
 # bottom wire in IR5
-line.insert_element(name=f'bbwc.i.4r5.{my_beam}',
+line.insert_element(name=f'bbwc.i.4l5.{my_beam}',
                     element=xt.Wire(
                         L_phy=1, 
                         L_int=2, 
@@ -96,7 +96,7 @@ line.insert_element(name=f'bbwc.i.4r5.{my_beam}',
                         xma=-1, # very far from the beam
                         yma=0.0  
                         ),
-                    at=f'tctph.4r5.{my_beam}')
+                    at=f'tctph.4l5.{my_beam}')
 
 s_ip = line.get_s_position(at_elements='ip1')
 
@@ -116,22 +116,22 @@ for ii in range(1,60):
 # %%
 # 't' is for top, 'b' is for bottom, 'e' is for external, 'i' is for internal
 # this are the wires for the beam 2        
-line.vars['co_y_wire_ip1.b2'] = 0
-line.vars['co_x_wire_ip1.b2'] = 0
-line.vars['co_y_wire_ip5.b2'] = 0
-line.vars['co_x_wire_ip5.b2'] = 0        
+line.vars['co_y_wire_ip1.b1'] = 0
+line.vars['co_x_wire_ip1.b1'] = 0
+line.vars['co_y_wire_ip5.b1'] = 0
+line.vars['co_x_wire_ip5.b1'] = 0        
 
-line.element_refs['bbwc.t.4r1.b2'].current = line.vars['i_wire_ip1.b2']
-line.element_refs['bbwc.t.4r1.b2'].yma = line.vars['d_wire_ip1.b2'] + line.vars['co_y_wire_ip1.b2']
+line.element_refs['bbwc.t.4l1.b1'].current = line.vars['i_wire_ip1.b1']
+line.element_refs['bbwc.t.4l1.b1'].yma = line.vars['d_wire_ip1.b1'] + line.vars['co_y_wire_ip1.b1']
 
-line.element_refs['bbwc.b.4r1.b2'].current = line.vars['i_wire_ip1.b2'] 
-line.element_refs['bbwc.b.4r1.b2'].yma = -line.vars['d_wire_ip1.b2'] + line.vars['co_y_wire_ip1.b2']
+line.element_refs['bbwc.b.4l1.b1'].current = line.vars['i_wire_ip1.b1'] 
+line.element_refs['bbwc.b.4l1.b1'].yma = -line.vars['d_wire_ip1.b1'] + line.vars['co_y_wire_ip1.b1']
 
-line.element_refs['bbwc.e.4r5.b2'].current = line.vars['i_wire_ip5.b2']
-line.element_refs['bbwc.e.4r5.b2'].xma = line.vars['d_wire_ip5.b2'] + line.vars['co_x_wire_ip5.b2']
+line.element_refs['bbwc.e.4l5.b1'].current = line.vars['i_wire_ip5.b1']
+line.element_refs['bbwc.e.4l5.b1'].xma = line.vars['d_wire_ip5.b1'] + line.vars['co_x_wire_ip5.b1']
 
-line.element_refs['bbwc.i.4r5.b2'].current = line.vars['i_wire_ip5.b2']
-line.element_refs['bbwc.i.4r5.b2'].xma = -line.vars['d_wire_ip5.b2'] + line.vars['co_x_wire_ip5.b2']
+line.element_refs['bbwc.i.4l5.b1'].current = line.vars['i_wire_ip5.b1']
+line.element_refs['bbwc.i.4l5.b1'].xma = -line.vars['d_wire_ip5.b1'] + line.vars['co_x_wire_ip5.b1']
 
 
 # %%
@@ -159,35 +159,35 @@ print('on_alice_normalized:\t', collider.vars['on_alice_normalized']._get_value(
 print('on_lhcb_normalized:\t', collider.vars['on_lhcb_normalized']._get_value())
 print('on_disp:\t\t', collider.vars['on_disp']._get_value())
 # %%
-tw_b2 = line.twiss(method='4d')
+tw_b1 = line.twiss(method='4d')
 from matplotlib import pyplot as plt
-plt.plot(tw_b2['s'], tw_b2['x'], label='x')
-plt.plot(tw_b2['s'], tw_b2['y'], label='y')
+plt.plot(tw_b1['s'], tw_b1['x'], label='x')
+plt.plot(tw_b1['s'], tw_b1['y'], label='y')
 # set the xticks only at the IPs
-plt.xticks([tw_b2['s','ip1'], tw_b2['s','ip2'], tw_b2['s','ip5'], tw_b2['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
-plt.title('Beam 2')
+plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+plt.title('Beam 1')
 plt.legend()
-assert tw_b2['x'].std() < 1e-8
-assert tw_b2['y'].std() < 1e-8
+assert tw_b1['x'].std() < 1e-8
+assert tw_b1['y'].std() < 1e-8
 # %%
 # set on_x1 to 160
 collider.vars['on_x1'] = 160.0
-tw_b2 = line.twiss(method='4d')
-plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['x'], label='x')
-plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['y'], label='y')
+tw_b1 = line.twiss(method='4d')
+plt.plot(tw_b1['s']- tw_b1.rows['ip1']['s'], tw_b1['x'], label='x')
+plt.plot(tw_b1['s']- tw_b1.rows['ip1']['s'], tw_b1['y'], label='y')
 
-plt.axvline(x=tw_b2['s','bbwc.b.4r1.b2']- tw_b2.rows['ip1']['s'],
+plt.axvline(x=tw_b1['s','bbwc.b.4l1.b1']- tw_b1.rows['ip1']['s'],
              color='r', 
              linestyle='-',
-             label='bbwc.b.4r1.b2')
+             label='bbwc.b.4l1.b1')
             
-plt.axvline(x=tw_b2['s','mqml.5r1.b2']- tw_b2.rows['ip1']['s'],
+plt.axvline(x=tw_b1['s','mqml.5l1.b1']- tw_b1.rows['ip1']['s'],
              color='b', 
-             linestyle='--', label='mqml.5r1.b2')
+             linestyle='--', label='mqml.5l1.b1')
 
-plt.axvline(x=tw_b2['s','mqml.5l1.b2']- tw_b2.rows['ip1']['s'],
+plt.axvline(x=tw_b1['s','mqml.5r1.b1']- tw_b1.rows['ip1']['s'],
              color='b', 
-             linestyle='-.', label='mqml.5l1.b2')
+             linestyle='-.', label='mqml.5r1.b1')
 plt.xlim(-300, 300)
 #set back to 0
 collider.vars['on_x1'] = 0.0
@@ -198,14 +198,14 @@ plt.legend()
 # %%
 # set on_x1 to 160
 collider.vars['on_x5'] = 160.0
-tw_b2 = line.twiss(method='4d')
-plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['x'], label='x')
-plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['y'], label='y')
+tw_b1 = line.twiss(method='4d')
+plt.plot(tw_b1['s']- tw_b1.rows['ip5']['s'], tw_b1['x'], label='x')
+plt.plot(tw_b1['s']- tw_b1.rows['ip5']['s'], tw_b1['y'], label='y')
 
-plt.axvline(x=tw_b2['s','bbwc.e.4r5.b2']- tw_b2.rows['ip5']['s'],
+plt.axvline(x=tw_b1['s','bbwc.e.4l5.b1']- tw_b1.rows['ip5']['s'],
              color='r', 
              linestyle='-',
-             label='bbwc.e.4r5.b2')
+             label='bbwc.e.4l5.b1')
             
 
 plt.xlim(-300, 300)
@@ -217,14 +217,14 @@ plt.legend()
 
 # %%
 collider.vars['on_sep1'] = 1.0
-tw_b2 = line.twiss(method='4d')
-plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['x'], label='x')
-plt.plot(tw_b2['s']- tw_b2.rows['ip1']['s'], tw_b2['y'], label='y')
+tw_b1 = line.twiss(method='4d')
+plt.plot(tw_b1['s']- tw_b1.rows['ip1']['s'], tw_b1['x'], label='x')
+plt.plot(tw_b1['s']- tw_b1.rows['ip1']['s'], tw_b1['y'], label='y')
 
-plt.axvline(x=tw_b2['s','bbwc.b.4r1.b2']- tw_b2.rows['ip1']['s'],
+plt.axvline(x=tw_b1['s','bbwc.b.4l1.b1']- tw_b1.rows['ip1']['s'],
              color='r', 
              linestyle='-',
-             label='bbwc.b.4r1.b2')
+             label='bbwc.b.4l1.b1')
             
 plt.xlim(-300, 300)
 collider.vars['on_sep1'] = 0.0
@@ -234,14 +234,14 @@ plt.legend()
 
 # %%
 collider.vars['on_sep5'] = 1.0
-tw_b2 = line.twiss(method='4d')
-plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['x'], label='x')
-plt.plot(tw_b2['s']- tw_b2.rows['ip5']['s'], tw_b2['y'], label='y')
+tw_b1 = line.twiss(method='4d')
+plt.plot(tw_b1['s']- tw_b1.rows['ip5']['s'], tw_b1['x'], label='x')
+plt.plot(tw_b1['s']- tw_b1.rows['ip5']['s'], tw_b1['y'], label='y')
 
-plt.axvline(x=tw_b2['s','bbwc.e.4r5.b2']- tw_b2.rows['ip5']['s'],
+plt.axvline(x=tw_b1['s','bbwc.e.4l5.b1']- tw_b1.rows['ip5']['s'],
              color='r', 
              linestyle='-',
-             label='bbwc.e.4r5.b2')
+             label='bbwc.e.4l5.b1')
             
 plt.xlim(-300, 300)
 collider.vars['on_sep5'] = 0.0
@@ -250,17 +250,17 @@ plt.ylabel('[m]')
 plt.legend()
 # %%
 for ip in [1,5]:
-        assert np.isclose(tw_b2['betx',f'ip{ip}'], collider.vars[f'betx_ip{ip}']._get_value(), rtol=1e-4)
-        assert np.isclose(tw_b2['bety',f'ip{ip}'], collider.vars[f'bety_ip{ip}']._get_value(), rtol=1e-4)
+        assert np.isclose(tw_b1['betx',f'ip{ip}'], collider.vars[f'betx_ip{ip}']._get_value(), rtol=1e-4)
+        assert np.isclose(tw_b1['bety',f'ip{ip}'], collider.vars[f'bety_ip{ip}']._get_value(), rtol=1e-4)
 print('Beam 1')
-assert np.isclose(tw_b2.qx, 62.31, atol=1e-6)
-assert np.isclose(tw_b2.qy, 60.32, atol=1e-6)
-tw_b2[['betx','alfx','bety','alfy','x','px','y','py'],'ip.*'].to_pandas()
+assert np.isclose(tw_b1.qx, 62.31, atol=1e-6)
+assert np.isclose(tw_b1.qy, 60.32, atol=1e-6)
+tw_b1[['betx','alfx','bety','alfy','x','px','y','py'],'ip.*'].to_pandas()
 
 # %%
 # For reference
 # these are the bbwc installed in the sequence
-print('These are the bbwc installed in the sequence', [ii for ii in collider.lhcb2.element_names if ('bbwc' in ii) ])
+print('These are the bbwc installed in the sequence', [ii for ii in collider.lhcb1.element_names if ('bbwc' in ii) ])
 
 
 
@@ -281,73 +281,73 @@ proton_mass_in_GeV = 0.93827208816
 beta_rel_proton = np.sqrt(1- (proton_mass_in_GeV/collider.vars['nrj']._get_value())**2)
 # compute gamma_rel_proton
 gamma_rel_proton = 1/np.sqrt(1-beta_rel_proton**2)
-tw_special = collider_at_30cm['lhcb2'].twiss(method='4d')
+tw_special = collider_at_30cm['lhcb1'].twiss(method='4d')
 
-sigma_y_at_tctpv_4r1_b2 = np.sqrt(tw_special['bety','tctpv.4r1.b2']
+sigma_y_at_tctpv_4l1_b1 = np.sqrt(tw_special['bety','tctpv.4l1.b1']
                                 * epsilon_collimation
                                 / beta_rel_proton
                                 / gamma_rel_proton)
 
-sigma_x_at_tctph_4r5_b2 = np.sqrt(tw_special['betx','tctph.4r5.b2']
+sigma_x_at_tctph_4l5_b1 = np.sqrt(tw_special['betx','tctph.4l5.b1']
                                 * epsilon_collimation
                                 / beta_rel_proton
                                 / gamma_rel_proton)
 
-line.vars['d_wire_ip1.b2'] = tct_opening_in_sigma * sigma_y_at_tctpv_4r1_b2 + wire_retraction
-line.vars['d_wire_ip5.b2'] = tct_opening_in_sigma * sigma_x_at_tctph_4r5_b2 + wire_retraction
+line.vars['d_wire_ip1.b1'] = tct_opening_in_sigma * sigma_y_at_tctpv_4l1_b1 + wire_retraction
+line.vars['d_wire_ip5.b1'] = tct_opening_in_sigma * sigma_x_at_tctph_4l5_b1 + wire_retraction
 
 
 print('The beam energy is', collider.vars['nrj']._get_value(), 'GeV.')
 print('The TCT opening assumed is', tct_opening_in_sigma,'collimation sigma.')
 print('The wire retraction is', wire_retraction*1e3, 'mm.')
-print('The wire-to-beam distance in IP1 is', line.vars['d_wire_ip1.b2']._get_value()*1e3, 'mm.')
-print('The wire-to-beam distance in IP5 is', line.vars['d_wire_ip5.b2']._get_value()*1e3, 'mm.')
+print('The wire-to-beam distance in IP1 is', line.vars['d_wire_ip1.b1']._get_value()*1e3, 'mm.')
+print('The wire-to-beam distance in IP5 is', line.vars['d_wire_ip5.b1']._get_value()*1e3, 'mm.')
 # %%
 # to test that there is not orbit effect
-line.vars['i_wire_ip1.b2'] = 350.0
-line.vars['i_wire_ip5.b2'] = 350.0
+line.vars['i_wire_ip1.b1'] = 350.0
+line.vars['i_wire_ip5.b1'] = 350.0
 
-tw_b2 = line.twiss(method='4d')
+tw_b1 = line.twiss(method='4d')
 # to check that the orbit is flat
-assert tw_b2['x'].std() < 1e-14
-assert tw_b2['y'].std() < 1e-14
+assert tw_b1['x'].std() < 1e-14
+assert tw_b1['y'].std() < 1e-14
 
-print(tw_b2.qx, tw_b2.qy)
+print(tw_b1.qx, tw_b1.qy)
 
 # %%
-line.vars['i_wire_ip1.b2'] = 0.0
-line.vars['i_wire_ip5.b2'] = 0.0
-tw_b2 = line.twiss(method='4d')
+line.vars['i_wire_ip1.b1'] = 0.0
+line.vars['i_wire_ip5.b1'] = 0.0
+tw_b1 = line.twiss(method='4d')
 
-qx0 = tw_b2.qx
-qy0 = tw_b2.qy
-betx_0 = tw_b2.betx
-bety_0 = tw_b2.bety
+qx0 = tw_b1.qx
+qy0 = tw_b1.qy
+betx_0 = tw_b1.betx
+bety_0 = tw_b1.bety
 
 
 i_range = np.linspace(0, 350, 10)
 delta_qx = []
 delta_qy = []
 for i_wire in i_range:
-        line.vars['i_wire_ip1.b2'] = i_wire
-        tw_b2 = line.twiss(method='4d')
-        delta_qx.append(tw_b2.qx-qx0)
-        delta_qy.append(tw_b2.qy-qy0)
+        line.vars['i_wire_ip1.b1'] = i_wire
+        tw_b1 = line.twiss(method='4d')
+        delta_qx.append(tw_b1.qx-qx0)
+        delta_qy.append(tw_b1.qy-qy0)
         print(delta_qx[-1], delta_qy[-1])
-        assert tw_b2['x'].std() < 1e-8 
-        assert tw_b2['y'].std() < 1e-8
+        assert tw_b1['x'].std() < 1e-8 
+        assert tw_b1['y'].std() < 1e-8
 
 plt.figure()
-plt.plot(tw_b2.s, (tw_b2.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
-plt.plot(tw_b2.s, (tw_b2.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
+plt.plot(tw_b1.s, (tw_b1.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
+plt.plot(tw_b1.s, (tw_b1.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
 plt.legend()
 plt.xlabel('s [m]')
 plt.ylabel('relative $\\beta$-beating')
-plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires at IR1 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.16, 0.16)
 plt.grid()
 # set ticks only at the IPs
-plt.xticks([tw_b2['s','ip1'], tw_b2['s','ip2'], tw_b2['s','ip5'], tw_b2['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
 
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
@@ -356,43 +356,43 @@ plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
 plt.ylabel('Tune shift [-]')
-plt.title('Wires in IR1 for B2 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires in IR1 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.01, 0.021)
 
 # %%
-line.vars['i_wire_ip1.b2'] = 0.0
-line.vars['i_wire_ip5.b2'] = 0.0
-tw_b2 = line.twiss(method='4d')
+line.vars['i_wire_ip1.b1'] = 0.0
+line.vars['i_wire_ip5.b1'] = 0.0
+tw_b1 = line.twiss(method='4d')
 
-qx0 = tw_b2.qx
-qy0 = tw_b2.qy
-betx_0 = tw_b2.betx
-bety_0 = tw_b2.bety
+qx0 = tw_b1.qx
+qy0 = tw_b1.qy
+betx_0 = tw_b1.betx
+bety_0 = tw_b1.bety
 
 
 i_range = np.linspace(0, 350, 10)
 delta_qx = []
 delta_qy = []
 for i_wire in i_range:
-        line.vars['i_wire_ip5.b2'] = i_wire
-        tw_b2 = line.twiss(method='4d')
-        delta_qx.append(tw_b2.qx-qx0)
-        delta_qy.append(tw_b2.qy-qy0)
+        line.vars['i_wire_ip5.b1'] = i_wire
+        tw_b1 = line.twiss(method='4d')
+        delta_qx.append(tw_b1.qx-qx0)
+        delta_qy.append(tw_b1.qy-qy0)
         print(delta_qx[-1], delta_qy[-1])
-        assert tw_b2['x'].std() < 1e-8 
-        assert tw_b2['y'].std() < 1e-8
+        assert tw_b1['x'].std() < 1e-8 
+        assert tw_b1['y'].std() < 1e-8
 
 plt.figure()
-plt.plot(tw_b2.s, (tw_b2.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
-plt.plot(tw_b2.s, (tw_b2.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
+plt.plot(tw_b1.s, (tw_b1.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
+plt.plot(tw_b1.s, (tw_b1.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
 plt.legend()
 plt.xlabel('s [m]')
 plt.ylabel('relative $\\beta$-beating')
-plt.title('Wires at IR5 for B2 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires at IR5 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.16, 0.16)
 plt.grid()
 # set ticks only at the IPs
-plt.xticks([tw_b2['s','ip1'], tw_b2['s','ip2'], tw_b2['s','ip5'], tw_b2['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
 
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
@@ -401,78 +401,78 @@ plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
 plt.ylabel('Tune shift [-]')
-plt.title('Wires at IR5 for B2 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires at IR5 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.01, 0.021)
 
 # %% Preparing the knobs for the matching
 my_k_list = [
-           'kq5.l1b2',
-           'kq5.r1b2', 
-           'kq6.l1b2', 
-           'kq6.r1b2',
-           'kq7.l1b2',
-           'kq7.r1b2',  
-           'kq8.l1b2',
-           'kq8.r1b2', 
-           'kq9.l1b2', 
-           'kq9.r1b2',
-           'kq10.l1b2',
-           'kq10.r1b2', 
-           'kqtl11.r1b2', 
-           'kqt12.r1b2', 
-           'kqt13.r1b2',
-           'kq4.l5b2',
-           'kq4.r5b2',
-           'kq5.l5b2',
-           'kq5.r5b2', 
-           'kq6.l5b2', 
-           'kq6.r5b2',
-           'kq7.l5b2',
-           'kq7.r5b2',  
-           'kq8.l5b2',
-           'kq8.r5b2', 
-           'kq9.l5b2', 
-           'kq9.r5b2',
-           'kq10.l5b2',
-           'kq10.r5b2', 
-           'kqtl11.r5b2', 
-           'kqt12.r5b2', 
-           'kqt13.r5b2',
+           'kq5.l1b1',
+           'kq5.r1b1', 
+           'kq6.l1b1', 
+           'kq6.r1b1',
+           'kq7.l1b1',
+           'kq7.r1b1',  
+           'kq8.l1b1',
+           'kq8.r1b1', 
+           'kq9.l1b1', 
+           'kq9.r1b1',
+           'kq10.l1b1',
+           'kq10.r1b1', 
+           'kqtl11.l1b1', 
+           'kqt12.l1b1', 
+           'kqt13.l1b1',
+           'kq4.l5b1',
+           'kq4.r5b1',
+           'kq5.l5b1',
+           'kq5.r5b1', 
+           'kq6.l5b1', 
+           'kq6.r5b1',
+           'kq7.l5b1',
+           'kq7.r5b1',  
+           'kq8.l5b1',
+           'kq8.r5b1', 
+           'kq9.l5b1', 
+           'kq9.r5b1',
+           'kq10.l5b1',
+           'kq10.r5b1', 
+           'kqtl11.l5b1', 
+           'kqt12.l5b1', 
+           'kqt13.l5b1',
            ]
 
 # from /afs/cern.ch/eng/lhc/optics/runIII/LHC_LS2_2021-07-02.seq
-limits_dict = { 'kq5.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
-                'kq5.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq6.l1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq6.r1b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq7.l1b2': ['kmin_mqm','kmax_mqm'], # MQM
-                'kq7.r1b2': ['kmin_mqm','kmax_mqm'], # MQM
-                'kq8.l1b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq8.r1b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq9.l1b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
-                'kq9.r1b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
-                'kq10.l1b2': ['kmin_mqml', 'kmax_mqml'], # MQML
-                'kq10.r1b2': ['kmin_mqml', 'kmax_mqml'], # MQML
-                'kqtl11.r1b2': ['kmin_mqtli','kmax_mqtli'], # MQTLI
-                'kqt12.r1b2': ['kmin_mqt','kmax_mqt'], # MQT
-                'kqt13.r1b2': ['kmin_mqt','kmax_mqt'], # MQT
-                'kq4.l5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
-                'kq4.r5b2': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
-                'kq5.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq5.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq6.l5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq6.r5b2': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
-                'kq7.l5b2': ['kmin_mqm','kmax_mqm'], # MQM
-                'kq7.r5b2': ['kmin_mqm','kmax_mqm'], # MQM
-                'kq8.l5b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq8.r5b2': ['kmin_mqml','kmax_mqml'], # MQML
-                'kq9.l5b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
-                'kq9.r5b2': ['kmin_mqmc','kmax_mqmc'], # MQMC
-                'kq10.l5b2': ['kmin_mqml', 'kmax_mqml'], # MQML
-                'kq10.r5b2': ['kmin_mqml', 'kmax_mqml'], # MQML
-                'kqtl11.r5b2': ['kmin_mqtli','kmax_mqtli'], # MQTLI
-                'kqt12.r5b2': ['kmin_mqt','kmax_mqt'], #MQT
-                'kqt13.r5b2': ['kmin_mqt','kmax_mqt'], #MQT
+limits_dict = { 'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
+                'kq5.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq7.l1b1': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq7.r1b1': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq8.l1b1': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq8.r1b1': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq9.l1b1': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq9.r1b1': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq10.l1b1': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kq10.r1b1': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kqtl11.l1b1': ['kmin_mqtli','kmax_mqtli'], # MQTLI
+                'kqt12.l1b1': ['kmin_mqt','kmax_mqt'], # MQT
+                'kqt13.l1b1': ['kmin_mqt','kmax_mqt'], # MQT
+                'kq4.l5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq4.r5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq5.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq5.r5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq6.r5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
+                'kq7.l5b1': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq7.r5b1': ['kmin_mqm','kmax_mqm'], # MQM
+                'kq8.l5b1': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq8.r5b1': ['kmin_mqml','kmax_mqml'], # MQML
+                'kq9.l5b1': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq9.r5b1': ['kmin_mqmc','kmax_mqmc'], # MQMC
+                'kq10.l5b1': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kq10.r5b1': ['kmin_mqml', 'kmax_mqml'], # MQML
+                'kqtl11.l5b1': ['kmin_mqtli','kmax_mqtli'], # MQTLI
+                'kqt12.l5b1': ['kmin_mqt','kmax_mqt'], #MQT
+                'kqt13.l5b1': ['kmin_mqt','kmax_mqt'], #MQT
                }
 
 def print_k_summary(my_k_list):
@@ -499,21 +499,21 @@ for ii in my_k_list:
         collider.vars[f'{ii}_0'] = collider.vars[ii]._get_value()
         collider.vars[f'{ii}_delta'] = 0.000000
         if 'r1' in ii:
-                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip1.b2']/350
+                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip1.b1']/350
         if 'l1' in ii:
-                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip1.b2']/350
+                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip1.b1']/350
  
         if 'r5' in ii:
-                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip5.b2']/350
+                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip5.b1']/350
         if 'l5' in ii:
-                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip5.b2']/350
+                collider.vars[ii] = collider.vars[f'{ii}_0'] + collider.vars[f'{ii}_delta']*collider.vars['i_wire_ip5.b1']/350
 
 
 # %%
 
 reset_delta_k(my_k_list)
-line.vars['i_wire_ip1.b2'] = 0.0
-line.vars['i_wire_ip5.b2'] = 0.0
+line.vars['i_wire_ip1.b1'] = 0.0
+line.vars['i_wire_ip5.b1'] = 0.0
 tw_ref = line.twiss(method='4d')
 def get_limits(my_k, factor=0.01):
         assert factor>0
@@ -527,40 +527,40 @@ def get_limits(my_k, factor=0.01):
 for  match_ip1 in [True, False]:
 
         if match_ip1:
-                line.vars['i_wire_ip1.b2'] = 350.0
-                line.vars['i_wire_ip5.b2'] = 0.0
+                line.vars['i_wire_ip1.b1'] = 350.0
+                line.vars['i_wire_ip5.b1'] = 0.0
 
-                tw_b2 = line.twiss(method='4d')
+                tw_b1 = line.twiss(method='4d')
                 print('Before matching')
-                print(tw_b2.qx, tw_b2.qy)
+                print(tw_b1.qx, tw_b1.qy)
 
                 variables_dict = {
-                                'kq5.r1b2_delta': {'limits': get_limits('kq5.r1b2_delta', 0.1),'step': 1e-8},
-                                'kq6.r1b2_delta': {'limits': get_limits('kq6.r1b2_delta', 0.1),'step': 1e-8},
-                                'kq7.r1b2_delta': {'limits': get_limits('kq7.r1b2_delta', 0.1),'step': 1e-8},
-                                'kq8.r1b2_delta': {'limits': get_limits('kq8.r1b2_delta', 0.1),'step': 1e-8},
-                                'kq9.r1b2_delta': {'limits': get_limits('kq9.r1b2_delta', 0.1),'step': 1e-8},
-                                'kq10.r1b2_delta': {'limits': get_limits('kq10.r1b2_delta', 0.1),'step': 1e-8},
-                                'kqtl11.r1b2_delta': {'limits': get_limits('kqtl11.r1b2_delta', 0.2),'step': 1e-8},
-                                'kqt12.r1b2_delta': {'limits': get_limits('kqt12.r1b2_delta', 0.2),'step': 1e-8},
-                                'kqt13.r1b2_delta': {'limits': get_limits('kqt13.r1b2_delta', 0.2),'step': 1e-8},
+                                'kq5.l1b1_delta': {'limits': get_limits('kq5.l1b1_delta', 0.1),'step': 1e-8},
+                                'kq6.l1b1_delta': {'limits': get_limits('kq6.l1b1_delta', 0.1),'step': 1e-8},
+                                'kq7.l1b1_delta': {'limits': get_limits('kq7.l1b1_delta', 0.1),'step': 1e-8},
+                                'kq8.l1b1_delta': {'limits': get_limits('kq8.l1b1_delta', 0.1),'step': 1e-8},
+                                'kq9.l1b1_delta': {'limits': get_limits('kq9.l1b1_delta', 0.1),'step': 1e-8},
+                                'kq10.l1b1_delta': {'limits': get_limits('kq10.l1b1_delta', 0.1),'step': 1e-8},
+                                'kqtl11.l1b1_delta': {'limits': get_limits('kqtl11.l1b1_delta', 0.2),'step': 1e-8},
+                                'kqt12.l1b1_delta': {'limits': get_limits('kqt12.l1b1_delta', 0.2),'step': 1e-8},
+                                'kqt13.l1b1_delta': {'limits': get_limits('kqt13.l1b1_delta', 0.2),'step': 1e-8},
                                 }       
 
 
                 variables_list = [
-                                'kq5.r1b2_delta', 
-                                'kq6.r1b2_delta',
-                                'kq7.r1b2_delta',
-                                'kq8.r1b2_delta',
-                                'kq9.r1b2_delta',
-                                'kq10.r1b2_delta',
-                                'kqtl11.r1b2_delta',
-                                'kqt12.r1b2_delta',
-                                'kqt13.r1b2_delta',                  
+                                'kq5.l1b1_delta', 
+                                'kq6.l1b1_delta',
+                                'kq7.l1b1_delta',
+                                'kq8.l1b1_delta',
+                                'kq9.l1b1_delta',
+                                'kq10.l1b1_delta',
+                                'kqtl11.l1b1_delta',
+                                'kqt12.l1b1_delta',
+                                'kqt13.l1b1_delta',                  
                                 ]
                 opt = line.match(
                 solve=False, # <- prepare the match without running it
-                start='e.ds.r1.b2', end='ip1',
+                start='s.ds.l1.b1', end='ip1',
                 init=tw_ref, init_at=xt.START,
                 method='4d',
                 vary=
@@ -572,45 +572,45 @@ for  match_ip1 in [True, False]:
                                 ], value=tw_ref, at=xt.END),
                 ])       
                 my_ip = 1
-                my_tct = 'tctpv.4r1.b2'
-                my_i = 'i_wire_ip1.b2'
+                my_tct = 'tctpv.4l1.b1'
+                my_i = 'i_wire_ip1.b1'
 
         else:
-                line.vars['i_wire_ip1.b2'] = 0.0
-                line.vars['i_wire_ip5.b2'] = 350.0
-                tw_b2 = line.twiss(method='4d')
+                line.vars['i_wire_ip1.b1'] = 0.0
+                line.vars['i_wire_ip5.b1'] = 350.0
+                tw_b1 = line.twiss(method='4d')
                 print('Before matching')
-                print(tw_b2.qx, tw_b2.qy)
+                print(tw_b1.qx, tw_b1.qy)
         
                 variables_dict = {
-                                'kq4.r5b2_delta': {'limits': get_limits('kq4.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq5.r5b2_delta': {'limits': get_limits('kq5.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq6.r5b2_delta': {'limits': get_limits('kq6.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq7.r5b2_delta': {'limits': get_limits('kq7.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq8.r5b2_delta': {'limits': get_limits('kq8.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq9.r5b2_delta': {'limits': get_limits('kq9.r5b2_delta', 0.05),'step': 1e-8},
-                                'kq10.r5b2_delta': {'limits': get_limits('kq10.r5b2_delta', 0.05),'step': 1e-8},
-                                'kqtl11.r5b2_delta': {'limits': get_limits('kqtl11.r5b2_delta', 0.1),'step': 1e-8},
-                                'kqt12.r5b2_delta': {'limits': get_limits('kqt12.r5b2_delta', 0.1),'step': 1e-8},
-                                'kqt13.r5b2_delta': {'limits': get_limits('kqt13.r5b2_delta', 0.1),'step': 1e-8},
+                                'kq4.l5b1_delta': {'limits': get_limits('kq4.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq5.l5b1_delta': {'limits': get_limits('kq5.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq6.l5b1_delta': {'limits': get_limits('kq6.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq7.l5b1_delta': {'limits': get_limits('kq7.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq8.l5b1_delta': {'limits': get_limits('kq8.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq9.l5b1_delta': {'limits': get_limits('kq9.l5b1_delta', 0.05),'step': 1e-8},
+                                'kq10.l5b1_delta': {'limits': get_limits('kq10.l5b1_delta', 0.05),'step': 1e-8},
+                                'kqtl11.l5b1_delta': {'limits': get_limits('kqtl11.l5b1_delta', 0.1),'step': 1e-8},
+                                'kqt12.l5b1_delta': {'limits': get_limits('kqt12.l5b1_delta', 0.1),'step': 1e-8},
+                                'kqt13.l5b1_delta': {'limits': get_limits('kqt13.l5b1_delta', 0.1),'step': 1e-8},
                                 }      
 
 
-                variables_list = ['kq4.r5b2_delta', 
-                                'kq5.r5b2_delta', 
-                                #'kq6.r5b2_delta',
-                                'kq7.r5b2_delta',
-                                'kq8.r5b2_delta',
-                                'kq9.r5b2_delta',
-                                'kq10.r5b2_delta',
-                                'kqtl11.r5b2_delta',
-                                'kqt12.r5b2_delta',
-                                'kqt13.r5b2_delta',                  
+                variables_list = ['kq4.l5b1_delta', 
+                                'kq5.l5b1_delta', 
+                                #'kq6.l5b1_delta',
+                                'kq7.l5b1_delta',
+                                'kq8.l5b1_delta',
+                                'kq9.l5b1_delta',
+                                'kq10.l5b1_delta',
+                                'kqtl11.l5b1_delta',
+                                'kqt12.l5b1_delta',
+                                'kqt13.l5b1_delta',                  
                                 ]
                 
                 opt = line.match(
                 solve=False, # <- prepare the match without running it
-                start='e.ds.r5.b2', end='ip5',
+                start='s.ds.l5.b1', end='ip5',
                 init=tw_ref, init_at=xt.START,
                 method='4d',
                 vary=
@@ -624,8 +624,8 @@ for  match_ip1 in [True, False]:
                                 ], value=tw_ref, at=xt.END),
                 ])
                 my_ip = 5
-                my_tct = 'tctph.4r5.b2'
-                my_i = 'i_wire_ip5.b2'
+                my_tct = 'tctph.4l5.b1'
+                my_i = 'i_wire_ip5.b1'
  
         opt.step(10)
 
@@ -668,14 +668,14 @@ for  match_ip1 in [True, False]:
         knob_dict['my_ip'] = my_ip
         knob_dict['my_optics'] = my_optics
         knob_dict['my_beam'] = my_beam
-        knob_dict['i_wire_ip1.b2'] = line.vars['i_wire_ip1.b2']._get_value()
-        knob_dict['i_wire_ip5.b2'] = line.vars['i_wire_ip5.b2']._get_value()
+        knob_dict['i_wire_ip1.b1'] = line.vars['i_wire_ip1.b1']._get_value()
+        knob_dict['i_wire_ip5.b1'] = line.vars['i_wire_ip5.b1']._get_value()
         knob_dict['tct_opening_in_sigma'] = tct_opening_in_sigma
-        knob_dict['sigma_y_at_tctpv_4r1_b2'] = sigma_y_at_tctpv_4r1_b2
-        knob_dict['sigma_x_at_tctph_4r5_b2'] = sigma_x_at_tctph_4r5_b2
+        knob_dict['sigma_y_at_tctpv_4l1_b1'] = sigma_y_at_tctpv_4l1_b1
+        knob_dict['sigma_x_at_tctph_4l5_b1'] = sigma_x_at_tctph_4l5_b1
         knob_dict['wire_retraction'] = wire_retraction
-        knob_dict['d_wire_ip1.b2'] = line.vars['d_wire_ip1.b2']._get_value()
-        knob_dict['d_wire_ip5.b2'] = line.vars['d_wire_ip5.b2']._get_value()
+        knob_dict['d_wire_ip1.b1'] = line.vars['d_wire_ip1.b1']._get_value()
+        knob_dict['d_wire_ip5.b1'] = line.vars['d_wire_ip5.b1']._get_value()
 
         knob_dict['k_0'] = k0_dict
         knob_dict['k'] = k_dict
@@ -688,16 +688,16 @@ for  match_ip1 in [True, False]:
                 json.dump(knob_dict, f, indent=4)
 
 
-        tw_b2 = line.twiss(method='4d')
+        tw_b1 = line.twiss(method='4d')
         print('After matching')
-        print(tw_b2.qx, tw_b2.qy)
+        print(tw_b1.qx, tw_b1.qy)
         
         plt.figure()
-        plt.plot(tw_b2.s, (tw_b2.betx-tw_ref.betx)/tw_ref.betx, label='$\Delta\\beta_x/\\beta_{x0}$')
-        plt.plot(tw_b2.s, (tw_b2.bety-tw_ref.bety)/tw_ref.bety, label='$\Delta\\beta_y\\beta_{y0}$')
+        plt.plot(tw_b1.s, (tw_b1.betx-tw_ref.betx)/tw_ref.betx, label='$\Delta\\beta_x/\\beta_{x0}$')
+        plt.plot(tw_b1.s, (tw_b1.bety-tw_ref.bety)/tw_ref.bety, label='$\Delta\\beta_y\\beta_{y0}$')
 
         # set xticks only at the IPs
-        plt.xticks([tw_b2['s','ip1'], tw_b2['s','ip2'], tw_b2['s','ip5'], tw_b2['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+        plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
         plt.xlabel('s along the ring [no units]')
         plt.ylabel('relative $\\beta$-beating')
         plt.title(f'Wire at IP{my_ip}@350 A, {my_tct}@8$\sigma@30cm$ with optics at {my_optics} cm')
@@ -706,9 +706,9 @@ for  match_ip1 in [True, False]:
 
         for ii in [my_ip]:
                 plt.figure()
-                s0 = tw_b2['s',f'ip{ii}']
-                plt.plot(tw_b2.s-s0, (tw_b2.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
-                plt.plot(tw_b2.s-s0, (tw_b2.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y\\beta_{y0}$')
+                s0 = tw_b1['s',f'ip{ii}']
+                plt.plot(tw_b1.s-s0, (tw_b1.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
+                plt.plot(tw_b1.s-s0, (tw_b1.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y\\beta_{y0}$')
                 plt.xlim(-700,5)
                 plt.grid()
                 plt.xlabel(f's from IP{my_ip} [m]')
@@ -719,7 +719,7 @@ for  match_ip1 in [True, False]:
                 
 
                 # set the elements_list taking the list line.element_names from 's.ds.l1.b1' to 'ip1'
-                element_list = line.element_names[line.element_names.index(f'e.ds.r{my_ip}.b2'):line.element_names.index(f'ip{my_ip}')+1]
+                element_list = line.element_names[line.element_names.index(f's.ds.l{my_ip}.b1'):line.element_names.index(f'ip{my_ip}')+1]
 
                 s_ref = line.get_s_position(f'ip{my_ip}')
 
@@ -736,16 +736,16 @@ for  match_ip1 in [True, False]:
 
                 # plot betx and bety on the second vertical axis
                 plt.twinx()
-                plt.plot(tw_b2.s-s0, tw_b2.betx, 'r', label='$\\beta_x$')
-                plt.plot(tw_b2.s-s0, tw_b2.bety, 'b', label='$\\beta_y$')
+                plt.plot(tw_b1.s-s0, tw_b1.betx, 'r', label='$\\beta_x$')
+                plt.plot(tw_b1.s-s0, tw_b1.bety, 'b', label='$\\beta_y$')
                 plt.ylabel('$\\beta_x$ and $\\beta_y$ [m]')
                 plt.legend(loc='lower right')
 
                 plt.figure()
-                plt.plot(tw_b2.s-s0, tw_b2.dx, '.-b', label='dx')
-                plt.plot(tw_b2.s-s0, tw_b2.dy, '.-r', label='dy')
-                plt.plot(tw_b2.s-s0, tw_ref.dx, 'ob', label='dx$_0$')
-                plt.plot(tw_b2.s-s0, tw_ref.dy, 'or', label='dy$_0$')
+                plt.plot(tw_b1.s-s0, tw_b1.dx, '.-b', label='dx')
+                plt.plot(tw_b1.s-s0, tw_b1.dy, '.-r', label='dy')
+                plt.plot(tw_b1.s-s0, tw_ref.dx, 'ob', label='dx$_0$')
+                plt.plot(tw_b1.s-s0, tw_ref.dy, 'or', label='dy$_0$')
                 plt.xlim(-700,5)
                 plt.ylim(-2.5, 0.5)
                 plt.legend()
@@ -767,20 +767,20 @@ for  match_ip1 in [True, False]:
 my_current = 50
 
 if match_ip1:
-        line.vars['i_wire_ip1.b2'] = my_current
-        line.vars['i_wire_ip5.b2'] = 0.0
+        line.vars['i_wire_ip1.b1'] = my_current
+        line.vars['i_wire_ip5.b1'] = 0.0
 else:
-        line.vars['i_wire_ip1.b2'] = 0.0
-        line.vars['i_wire_ip5.b2'] = my_current
+        line.vars['i_wire_ip1.b1'] = 0.0
+        line.vars['i_wire_ip5.b1'] = my_current
 
-tw_b2 = line.twiss(method='4d')
+tw_b1 = line.twiss(method='4d')
 
-print(tw_b2.qx-tw_ref.qx, tw_b2.qy-tw_ref.qy)
+print(tw_b1.qx-tw_ref.qx, tw_b1.qy-tw_ref.qy)
 for ii in [my_ip]:
         plt.figure()
-        s0 = tw_b2['s',f'ip{ii}']
-        plt.plot(tw_b2.s-s0, (tw_b2.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
-        plt.plot(tw_b2.s-s0, (tw_b2.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y\\beta_{y0}$')
+        s0 = tw_b1['s',f'ip{ii}']
+        plt.plot(tw_b1.s-s0, (tw_b1.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
+        plt.plot(tw_b1.s-s0, (tw_b1.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y\\beta_{y0}$')
         #plt.xlim(-700,5)
         plt.grid()
         plt.xlabel(f's from IP{my_ip} [m]')
@@ -792,76 +792,76 @@ for ii in [my_ip]:
 # %%
 epsilon_geometric = epsilon_collimation/beta_rel_proton/gamma_rel_proton
 
-line.vars['i_wire_ip1.b2'] = 0
-line.vars['i_wire_ip5.b2'] = 0
-line.vars['co_x_wire_ip1.b2'] = 0
-line.vars['co_y_wire_ip1.b2'] = 0
-line.vars['co_x_wire_ip5.b2'] = 0
-line.vars['co_y_wire_ip5.b2'] = 0
+line.vars['i_wire_ip1.b1'] = 0
+line.vars['i_wire_ip5.b1'] = 0
+line.vars['co_x_wire_ip1.b1'] = 0
+line.vars['co_y_wire_ip1.b1'] = 0
+line.vars['co_x_wire_ip5.b1'] = 0
+line.vars['co_y_wire_ip5.b1'] = 0
 
 line.vars['on_x1'] = 160.0
 
-tw_b2 = line.twiss(method='4d')
+tw_b1 = line.twiss(method='4d')
 
-line.vars['co_x_wire_ip1.b2'] = tw_b2['x', 'tctpv.4r1.b2']
-line.vars['co_y_wire_ip1.b2'] = tw_b2['y', 'tctpv.4r1.b2']
-line.vars['co_x_wire_ip5.b2'] = tw_b2['x', 'tctph.4r5.b2']
-line.vars['co_y_wire_ip5.b2'] = tw_b2['y', 'tctph.4r5.b2']
+line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'tctpv.4l1.b1']
+line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'tctpv.4l1.b1']
+line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'tctph.4l5.b1']
+line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'tctph.4l5.b1']
 
-line.vars['i_wire_ip1.b2'] = 350.0
-tw_b2_wire_ip1_on = line.twiss(method='4d')
-plt.plot(tw_b2_wire_ip1_on['mux'], (tw_b2_wire_ip1_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
+line.vars['i_wire_ip1.b1'] = 350.0
+tw_b1_wire_ip1_on = line.twiss(method='4d')
+plt.plot(tw_b1_wire_ip1_on['mux'], (tw_b1_wire_ip1_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
 
-plt.plot(tw_b2_wire_ip1_on['muy'], (tw_b2_wire_ip1_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
+plt.plot(tw_b1_wire_ip1_on['muy'], (tw_b1_wire_ip1_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
 plt.ylabel('[$\sigma_{coll}$]')
 plt.legend()
 # show ticks of the IPs only
-#plt.xticks([tw_b2_wire_ip1_on['s','ip1'], tw_b2_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
-plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
+#plt.xticks([tw_b1_wire_ip1_on['s','ip1'], tw_b1_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
+plt.title('Wires at IR1 for B1 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
 plt.xlabel('x and y phase [2$\pi$]')
 
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
-line.vars['co_x_wire_ip1.b2'] = 0
-line.vars['co_y_wire_ip1.b2'] = 0
-line.vars['co_x_wire_ip5.b2'] = 0
-line.vars['co_y_wire_ip5.b2'] = 0
+line.vars['co_x_wire_ip1.b1'] = 0
+line.vars['co_y_wire_ip1.b1'] = 0
+line.vars['co_x_wire_ip5.b1'] = 0
+line.vars['co_y_wire_ip5.b1'] = 0
 
 
 
 # %%
 
-line.vars['i_wire_ip1.b2'] = 0
-line.vars['i_wire_ip5.b2'] = 0
-line.vars['co_x_wire_ip1.b2'] = 0
-line.vars['co_y_wire_ip1.b2'] = 0
-line.vars['co_x_wire_ip5.b2'] = 0
-line.vars['co_y_wire_ip5.b2'] = 0
+line.vars['i_wire_ip1.b1'] = 0
+line.vars['i_wire_ip5.b1'] = 0
+line.vars['co_x_wire_ip1.b1'] = 0
+line.vars['co_y_wire_ip1.b1'] = 0
+line.vars['co_x_wire_ip5.b1'] = 0
+line.vars['co_y_wire_ip5.b1'] = 0
 
 line.vars['on_x5'] = 160.0
-tw_b2 = line.twiss(method='4d')
+tw_b1 = line.twiss(method='4d')
 
-line.vars['co_x_wire_ip1.b2'] = tw_b2['x', 'tctpv.4r1.b2']
-line.vars['co_y_wire_ip1.b2'] = tw_b2['y', 'tctpv.4r1.b2']
-line.vars['co_x_wire_ip5.b2'] = tw_b2['x', 'tctph.4r5.b2']
-line.vars['co_y_wire_ip5.b2'] = tw_b2['y', 'tctph.4r5.b2']
+line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'tctpv.4l1.b1']
+line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'tctpv.4l1.b1']
+line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'tctph.4l5.b1']
+line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'tctph.4l5.b1']
 
-line.vars['i_wire_ip5.b2'] = 350.0
-tw_b2_wire_ip5_on = line.twiss(method='4d')
+line.vars['i_wire_ip5.b1'] = 350.0
+tw_b1_wire_ip5_on = line.twiss(method='4d')
 
-plt.plot(tw_b2_wire_ip5_on['mux'], (tw_b2_wire_ip5_on['x']- tw_b2['x'])/np.sqrt(tw_b2['betx']*epsilon_geometric), label='x')
-plt.plot(tw_b2_wire_ip5_on['muy'], (tw_b2_wire_ip5_on['y']- tw_b2['y'])/np.sqrt(tw_b2['bety']*epsilon_geometric), label='y')
+plt.plot(tw_b1_wire_ip5_on['mux'], (tw_b1_wire_ip5_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
+plt.plot(tw_b1_wire_ip5_on['muy'], (tw_b1_wire_ip5_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
 plt.ylabel('[$\sigma_{coll}$]')
 plt.xlabel('x and y phase [2$\pi$]')
 plt.legend()
 # show ticks of the IPs only
-#plt.xticks([tw_b2_wire_ip5_on['mux','ip1'], tw_b2_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
-plt.title('Wires at IR1 for B2 (350 A, TCT at 8$\sigma$) and on_x5 = 160')
+#plt.xticks([tw_b1_wire_ip5_on['mux','ip1'], tw_b1_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
+plt.title('Wires at IR1 for b1 (350 A, TCT at 8$\sigma$) and on_x5 = 160')
 
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
-line.vars['co_x_wire_ip1.b2'] = 0
-line.vars['co_y_wire_ip1.b2'] = 0
-line.vars['co_x_wire_ip5.b2'] = 0
-line.vars['co_y_wire_ip5.b2'] = 0
+line.vars['co_x_wire_ip1.b1'] = 0
+line.vars['co_y_wire_ip1.b1'] = 0
+line.vars['co_x_wire_ip5.b1'] = 0
+line.vars['co_y_wire_ip5.b1'] = 0
 # %%
