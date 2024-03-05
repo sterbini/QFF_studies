@@ -330,7 +330,7 @@ bety_0_at_wire_ip1 = tw_b2['bety', 'bbwc.t.4r1.b2']
 mu0 = 4*np.pi*1e-7
 
 k_wire_ip1 = 2*mu0/2/np.pi*350/(line.vars['d_wire_ip1.b2']._get_value())**2/6800/3.3356
-k_wire_ip5 = 2*mu0/2/np.pi*350/(line.vars['d_wire_ip5.b2']._get_value())**2/6800/3.3356
+k_wire_ip5 = -2*mu0/2/np.pi*350/(line.vars['d_wire_ip5.b2']._get_value())**2/6800/3.3356
 
 i_range = np.linspace(0, 350, 10)
 delta_qx = []
@@ -407,8 +407,8 @@ plt.xticks([tw_b2['s','ip1'], tw_b2['s','ip2'], tw_b2['s','ip5'], tw_b2['s','ip8
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
 plt.plot(i_range, delta_qy, 's-', label='$\Delta$Qy')
-plt.plot(i_range, -k_wire_ip5*i_range/350*betx_0_at_wire_ip5/4/np.pi, 'k--', label='k_wire_ip1')
-plt.plot(i_range, k_wire_ip5*i_range/350*bety_0_at_wire_ip5/4/np.pi, 'k-.', label='k_wire_ip1')
+plt.plot(i_range, k_wire_ip5*i_range/350*betx_0_at_wire_ip5/4/np.pi, 'k--', label='k_wire_ip1')
+plt.plot(i_range, -k_wire_ip5*i_range/350*bety_0_at_wire_ip5/4/np.pi, 'k-.', label='k_wire_ip1')
 plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
