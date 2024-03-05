@@ -568,7 +568,7 @@ for  match_ip1 in [True, False]:
                 targets=[
                         xt.TargetSet(['mux', 'muy','betx','bety','alfx','alfy',
                                 'dx',
-                                #'dpx',
+                                'dpx',
                                 ], value=tw_ref, at=xt.END),
                 ])       
                 my_ip = 1
@@ -649,6 +649,17 @@ for  match_ip1 in [True, False]:
                 kmin[name] = low_limit
                 kmax[name] = high_limit
                 assert  kmin[name]<np.abs(k_dict[name])< kmax[name]
+                # Following the comment of Stéphane Fartoukh
+                # sometimes when both apertures are too small in gradient, 
+                # the regulation does not work with 2.2% 
+                # (even if the ratio between aperture lies in the spec of 
+                # 0.5 <= min(Kb1/Kb2) <=max(Kb1/Kb2)<= 2.0). 
+                # We always matched with 3% for Kmin to avoid bad surprise 
+                # at commissioning (depends on the details of all circuits, 
+                # cable length etc.)…
+                # It happened once during commissioning of the ATS in 
+                # 2017 when IR4b1 was rematched over the phone (somehow..)
+                assert  0.03*kmax[name]<np.abs(k_dict[name])<kmax[name]
                 k_relative_variation_percent[name] = delta_dict[name]/k0_dict[name]*100
                 kmax_relative_variation_percent[name] = np.abs( delta_dict[name])/kmax[name]*100
         knob_dict = {}
