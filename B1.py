@@ -323,7 +323,16 @@ qx0 = tw_b1.qx
 qy0 = tw_b1.qy
 betx_0 = tw_b1.betx
 bety_0 = tw_b1.bety
+betx_0_at_wire_ip1 = tw_b1['betx', 'bbwc.t.4l1.b1']
+bety_0_at_wire_ip1 = tw_b1['bety', 'bbwc.t.4l1.b1']
 
+
+
+# mu0 magnetic permeability
+mu0 = 4*np.pi*1e-7
+
+k_wire_ip1 = 2*mu0/2/np.pi*350/(line.vars['d_wire_ip1.b1']._get_value())**2/6800/3.3356
+k_wire_ip5 = 2*mu0/2/np.pi*350/(line.vars['d_wire_ip5.b1']._get_value())**2/6800/3.3356
 
 i_range = np.linspace(0, 350, 10)
 delta_qx = []
@@ -352,6 +361,8 @@ plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
 plt.plot(i_range, delta_qy, 's-', label='$\Delta$Qy')
+plt.plot(i_range, k_wire_ip1*i_range/350*betx_0_at_wire_ip1/4/np.pi, 'k--', label='k_wire_ip1')
+plt.plot(i_range, -k_wire_ip1*i_range/350*bety_0_at_wire_ip1/4/np.pi, 'k-.', label='k_wire_ip1')
 plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
@@ -368,7 +379,8 @@ qx0 = tw_b1.qx
 qy0 = tw_b1.qy
 betx_0 = tw_b1.betx
 bety_0 = tw_b1.bety
-
+betx_0_at_wire_ip5 = tw_b1['betx', 'bbwc.e.4l5.b1']
+bety_0_at_wire_ip5 = tw_b1['bety', 'bbwc.e.4l5.b1']
 
 i_range = np.linspace(0, 350, 10)
 delta_qx = []
@@ -397,6 +409,8 @@ plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
 plt.plot(i_range, delta_qy, 's-', label='$\Delta$Qy')
+plt.plot(i_range, -k_wire_ip5*i_range/350*betx_0_at_wire_ip5/4/np.pi, 'k--', label='k_wire_ip1')
+plt.plot(i_range, k_wire_ip5*i_range/350*bety_0_at_wire_ip5/4/np.pi, 'k-.', label='k_wire_ip1')
 plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
@@ -664,12 +678,14 @@ for  match_ip1 in [True, False]:
                 kmax_relative_variation_percent[name] = np.abs( delta_dict[name])/kmax[name]*100
         knob_dict = {}
         knob_dict['k_delta'] = delta_dict
-        
+
         knob_dict['my_ip'] = my_ip
         knob_dict['my_optics'] = my_optics
         knob_dict['my_beam'] = my_beam
         knob_dict['i_wire_ip1.b1'] = line.vars['i_wire_ip1.b1']._get_value()
         knob_dict['i_wire_ip5.b1'] = line.vars['i_wire_ip5.b1']._get_value()
+        knob_dict['k_wire_ip1'] = k_wire_ip1/350*knob_dict['i_wire_ip1.b1']
+        knob_dict['k_wire_ip5'] = k_wire_ip5/350*knob_dict['i_wire_ip5.b1']
         knob_dict['tct_opening_in_sigma'] = tct_opening_in_sigma
         knob_dict['sigma_y_at_tctpv_4l1_b1'] = sigma_y_at_tctpv_4l1_b1
         knob_dict['sigma_x_at_tctph_4l5_b1'] = sigma_x_at_tctph_4l5_b1
@@ -683,7 +699,8 @@ for  match_ip1 in [True, False]:
         knob_dict['kmax'] = kmax
         knob_dict['k_relative_variation_percent'] = k_relative_variation_percent
         knob_dict['kmax_relative_variation_percent'] = kmax_relative_variation_percent
-
+        # normalize the dictionary delta_dict by the scalar knob_dict['k_wire_ip1']
+        knob_dict[f'k_delta/k_wire_ip{my_ip}'] = {ii: delta_dict[ii]/knob_dict[f'k_wire_ip{my_ip}'] for ii in delta_dict}
         with open(f'knob_dict_350A_8sigma@30cm_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
                 json.dump(knob_dict, f, indent=4)
 
