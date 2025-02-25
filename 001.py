@@ -1,5 +1,5 @@
 # %%
-#/afs/cern.ch/eng/lhc/optics/runIII/RunIII_dev/Proton_2024/README
+#/afs/cern.ch/eng/lhc/optics/runIII/RunIII_dev/Proton_2025/README
 # opticsfile.43
 from matplotlib import pyplot as plt
 import xtrack as xt
@@ -11,10 +11,10 @@ if False:
         build_distr_and_collider()
 
 # %%
-collider = xt.Multiline.from_json('./collider/collider_43.json')
+collider = xt.Multiline.from_json('./collider/collider_46.json')
 
-my_beam = 'b2'
-my_optics = 30
+my_beam = 'b1'
+my_optics = '60/18'
 
 # remove the my_list the elements mbas2.1l1 and mbas2.1r1 from collider 
 s_ip = collider[f'lhc{my_beam}'].get_s_position(at_elements='ip1')
@@ -199,6 +199,7 @@ print('Beam 1')
 assert np.isclose(tw_b1.qx, 62.31, atol=1e-6)
 assert np.isclose(tw_b1.qy, 60.32, atol=1e-6)
 # ask Gianni why the show is not working
+tw_b1 = line.twiss(method='4d')
 tw_b1[['betx','alfx','bety','alfy','x','px','y','py'],'ip.*'].to_pandas()
 
 
@@ -258,12 +259,12 @@ plt.axvline(x=tw_b1['s','mqml.6r1.b1']- tw_b1.rows['ip1']['s'],
 
 plt.legend()
 # %%
-collider_at_30cm =  xt.Multiline.from_json('./collider/collider_43.json')
+collider_at_6018cm =  xt.Multiline.from_json('./collider/collider_46.json')
 for ii in [2,8]:
-        collider_at_30cm.vars[f'on_x{ii}h'] = 0.0
-        collider_at_30cm.vars[f'on_x{ii}v'] = 0.0
-        collider_at_30cm.vars[f'on_sep{ii}h'] = 0.0
-        collider_at_30cm.vars[f'on_sep{ii}v'] = 0.0
+        collider_at_6018cm.vars[f'on_x{ii}h'] = 0.0
+        collider_at_6018cm.vars[f'on_x{ii}v'] = 0.0
+        collider_at_6018cm.vars[f'on_sep{ii}h'] = 0.0
+        collider_at_6018cm.vars[f'on_sep{ii}v'] = 0.0
 
 epsilon_collimation = 3.5e-6
 wire_retraction = 0.003
@@ -273,7 +274,7 @@ proton_mass_in_GeV = 0.93827208816
 beta_rel_proton = np.sqrt(1- (proton_mass_in_GeV/collider.vars['nrj']._get_value())**2)
 # compute gamma_rel_proton
 gamma_rel_proton = 1/np.sqrt(1-beta_rel_proton**2)
-tw_special = collider_at_30cm['lhcb1'].twiss(method='4d')
+tw_special = collider_at_6018cm['lhcb1'].twiss(method='4d')
 
 sigma_y_at_tctpv_4l1_b1 = np.sqrt(tw_special['bety','tctpv.4l1.b1']
                                 * epsilon_collimation
@@ -393,6 +394,8 @@ plt.ylim(-.01, 0.021)
 
 # %%
 my_k_list = [
+           'kq4.l1b1',
+           'kq4.r1b1',
            'kq5.l1b1',
            'kq5.r1b1', 
            'kq6.l1b1', 
@@ -408,8 +411,6 @@ my_k_list = [
            'kqtl11.l1b1', 
            'kqt12.l1b1', 
            'kqt13.l1b1',
-           'kq4.l5b1',
-           'kq4.r5b1',
            'kq5.l5b1',
            'kq5.r5b1', 
            'kq6.l5b1', 
@@ -427,7 +428,9 @@ my_k_list = [
            'kqt13.l5b1',
            ]
 
-limits_dict = { 'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
+limits_dict = { 'kq4.l1b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
+                'kq4.r1b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
+                'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kq5.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kq6.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kq6.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
@@ -442,8 +445,6 @@ limits_dict = { 'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kqtl11.l1b1': ['kmin_mqtli','kmax_mqtli'], 
                 'kqt12.l1b1': ['kmin_mqt','kmax_mqt'], 
                 'kqt13.l1b1': ['kmin_mqt','kmax_mqt'],
-                'kq4.l5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
-                'kq4.r5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'],
                 'kq5.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kq5.r5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
                 'kq6.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'],
@@ -502,11 +503,22 @@ tw_b1 = line.twiss(method='4d')
 print('Before matching')
 print(tw_b1.qx, tw_b1.qy)
 
-variables_list = ['kq5.l1b1_delta', 'kq5.r1b1_delta']
+variables_list = [
+           'kq4.l1b1',
+           'kq5.l1b1',
+           'kq6.l1b1', 
+           'kq7.l1b1',
+           'kq8.l1b1',
+           'kq9.l1b1', 
+           'kq10.l1b1',
+           'kqtl11.l1b1', 
+           'kqt12.l1b1', 
+           'kqt13.l1b1',                                        
+]
 opt = line.match(
     solve=False, # <- prepare the match without running it
     method='4d',
-    vary=xt.VaryList(variables_list, limits=(-.001, 0.001),  step=1e-7),
+    vary=xt.VaryList(variables_list, limits=(-.01, 0.01),  step=1e-7),
     targets=xt.TargetList(qx=qx0, qy=qy0, tol=1e-7, tag='tunes'),
 )
 
@@ -710,7 +722,7 @@ print_k_summary(my_k_list)
 
 reset_delta_k(my_k_list)
 
-match_ip1 = True
+match_ip1 = False
 
 if match_ip1:
         line.vars['i_wire_ip1.b1'] = 350.0
@@ -720,8 +732,10 @@ if match_ip1:
         print('Before matching')
         print(tw_b1.qx, tw_b1.qy)
 
-        variables_list = ['kq5.l1b1_delta', 
-                        'kq6.l1b1_delta',
+        variables_list = [
+                        'kq4.l1b1_delta', 
+                        'kq5.l1b1_delta', 
+                        #'kq6.l1b1_delta',
                         'kq7.l1b1_delta',
                         'kq8.l1b1_delta',
                         'kq9.l1b1_delta',
@@ -750,9 +764,9 @@ else:
         tw_b1 = line.twiss(method='4d')
         print('Before matching')
         print(tw_b1.qx, tw_b1.qy)
-        variables_list = ['kq4.l5b1_delta', 
+        variables_list = [#'kq4.l5b1_delta', 
                         'kq5.l5b1_delta', 
-                        #'kq6.l5b1_delta',
+                        'kq6.l5b1_delta',
                         'kq7.l5b1_delta',
                         'kq8.l5b1_delta',
                         'kq9.l5b1_delta',

@@ -12,22 +12,22 @@ if False:
 
 # %%
 my_beam = 'b1' # this is the beam 4 in madx sense
-my_optics = 30 # beta* at which the knob is matched
+my_optics = 60.18 # beta* at which the knob is matched
 
-if my_optics==30:
-        collider = xt.Multiline.from_json('./collider/collider_43.json')
-elif my_optics==28:
-        collider = xt.Multiline.from_json('./collider/collider_44.json')
-elif my_optics==26:
-        collider = xt.Multiline.from_json('./collider/collider_45.json')
-elif my_optics==24:
+if my_optics==60.18:
         collider = xt.Multiline.from_json('./collider/collider_46.json')
-elif my_optics==22:
-        collider = xt.Multiline.from_json('./collider/collider_47.json')
-elif my_optics==20:
-        collider = xt.Multiline.from_json('./collider/collider_48.json')
-elif my_optics==60:
-        collider = xt.Multiline.from_json('./collider/collider_34.json')
+# elif my_optics==28:
+#         collider = xt.Multiline.from_json('./collider/collider_44.json')
+# elif my_optics==26:
+#         collider = xt.Multiline.from_json('./collider/collider_45.json')
+# elif my_optics==24:
+#         collider = xt.Multiline.from_json('./collider/collider_46.json')
+# elif my_optics==22:
+#         collider = xt.Multiline.from_json('./collider/collider_47.json')
+# elif my_optics==20:
+#         collider = xt.Multiline.from_json('./collider/collider_48.json')
+# elif my_optics==60:
+#         collider = xt.Multiline.from_json('./collider/collider_34.json')
 else:
         raise ValueError('The optics is not available')
 
@@ -45,7 +45,22 @@ line.element_dict['mbas2.1r1'] =xt.Drift(length=sol.length)
 print('The wire in the TCTPV.4L1.B1 is at', line.get_s_position(f'tctpv.4l1.b1')-line.get_s_position(f'ip1'), 'm from the IP1.')
 print('The wire in the TCTPH.4L5.B1 is at', line.get_s_position(f'tctph.4l5.b1')-line.get_s_position(f'ip5'), 'm from the IP5.')
 
+for ii in ['tctpv.4l1.b1_entry', 'tctpv.4l1.b1', 'tctpv.4l1.b1_exit']:
+        print(f'The wire in the {ii} is at', line.get_s_position(ii)-line.get_s_position(f'ip1'), 'm from the IP1.')
 
+print('The tctpv.4l1.b1 middle is at', line.get_s_position('tctpv.4l1.b1_entry')
+                                        -(line.get_s_position('tctpv.4l1.b1_entry')-line.get_s_position('tctpv.4l1.b1_exit'))/2
+                                        -line.get_s_position(f'ip1'), 'm from the IP1.')
+
+print(8*'*')
+for ii  in ['tctph.4l5.b1_entry', 'tctph.4l5.b1', 'tctph.4l5.b1_exit']:
+        print(f'The wire in the {ii} is at', line.get_s_position(ii)-line.get_s_position(f'ip5'), 'm from the IP5.')
+print('The tctph.4l5.b1 middle is at', line.get_s_position('tctph.4l5.b1_entry')
+                                        -(line.get_s_position('tctph.4l5.b1_entry')-line.get_s_position('tctph.4l5.b1_exit'))/2
+                                        -line.get_s_position(f'ip5'), 'm from the IP5.')
+
+wire_s_ip1 = line.get_s_position('tctpv.4l1.b1_entry')-(line.get_s_position('tctpv.4l1.b1_entry')-line.get_s_position('tctpv.4l1.b1_exit'))/2
+wire_s_ip5 = line.get_s_position('tctph.4l5.b1_entry')-(line.get_s_position('tctph.4l5.b1_entry')-line.get_s_position('tctph.4l5.b1_exit'))/2 
 
 # %%
 # installation of the wires in the sequence
@@ -65,7 +80,8 @@ line.insert_element(name=f'bbwc.t.4l1.{my_beam}',
                         xma=0.0, 
                         yma= 1 # very far from the beam
                         ),
-                    at=f'tctpv.4l1.{my_beam}')
+                    #at=f'tctpv.4l1.{my_beam}')
+                    at_s=wire_s_ip1)
 # bottom wire in IR1
 line.insert_element(name=f'bbwc.b.4l1.{my_beam}',
                     element=xt.Wire(
@@ -75,7 +91,8 @@ line.insert_element(name=f'bbwc.b.4l1.{my_beam}',
                         xma=0.0, 
                         yma=-1  # very far from the beam
                         ),
-                    at=f'tctpv.4l1.{my_beam}')
+                    #at=f'tctpv.4l1.{my_beam}')
+                    at_s=wire_s_ip1)
 
 # upper wire in IR5
 line.insert_element(name=f'bbwc.e.4l5.{my_beam}',
@@ -86,7 +103,8 @@ line.insert_element(name=f'bbwc.e.4l5.{my_beam}',
                         xma=1, # very far from the beam
                         yma=0.0 
                         ),
-                    at=f'tctph.4l5.{my_beam}')
+                    #at=f'tctph.4l5.{my_beam}')
+                    at_s=wire_s_ip5)
 # bottom wire in IR5
 line.insert_element(name=f'bbwc.i.4l5.{my_beam}',
                     element=xt.Wire(
@@ -96,7 +114,8 @@ line.insert_element(name=f'bbwc.i.4l5.{my_beam}',
                         xma=-1, # very far from the beam
                         yma=0.0  
                         ),
-                    at=f'tctph.4l5.{my_beam}')
+                    #at=f'tctph.4l5.{my_beam}')
+                    at_s=wire_s_ip5)
 
 s_ip = line.get_s_position(at_elements='ip1')
 
@@ -112,6 +131,12 @@ for ii in range(1,60):
                     element=xt.Marker(),
                     at_s=s_ip - ii/20)
 
+# %%
+for ii in [f'bbwc.b.4l1.{my_beam}', f'bbwc.t.4l1.{my_beam}']:
+        print(f'The wire in the {ii} is at', line.get_s_position(ii)-line.get_s_position(f'ip1'), 'm from the IP1.')
+
+for ii in [f'bbwc.i.4l5.{my_beam}', f'bbwc.e.4l5.{my_beam}']:
+        print(f'The wire in the {ii} is at', line.get_s_position(ii)-line.get_s_position(f'ip5'), 'm from the IP5.')
 
 # %%
 # 't' is for top, 'b' is for bottom, 'e' is for external, 'i' is for internal
@@ -191,7 +216,7 @@ plt.axvline(x=tw_b1['s','mqml.5r1.b1']- tw_b1.rows['ip1']['s'],
 plt.xlim(-300, 300)
 #set back to 0
 collider.vars['on_x1'] = 0.0
-plt.xlabel('s [m]')
+plt.xlabel('s from IP1 [m]')
 plt.ylabel('[m]')
 plt.legend()
 
@@ -211,7 +236,7 @@ plt.axvline(x=tw_b1['s','bbwc.e.4l5.b1']- tw_b1.rows['ip5']['s'],
 plt.xlim(-300, 300)
 #set back to 0
 collider.vars['on_x5'] = 0.0
-plt.xlabel('s [m]')
+plt.xlabel('s from IP5 [m]')
 plt.ylabel('[m]')
 plt.legend()
 
@@ -228,7 +253,7 @@ plt.axvline(x=tw_b1['s','bbwc.b.4l1.b1']- tw_b1.rows['ip1']['s'],
             
 plt.xlim(-300, 300)
 collider.vars['on_sep1'] = 0.0
-plt.xlabel('s [m]')
+plt.xlabel('s from IP1 [m]')
 plt.ylabel('[m]')
 plt.legend()
 
@@ -245,7 +270,7 @@ plt.axvline(x=tw_b1['s','bbwc.e.4l5.b1']- tw_b1.rows['ip5']['s'],
             
 plt.xlim(-300, 300)
 collider.vars['on_sep5'] = 0.0
-plt.xlabel('s [m]')
+plt.xlabel('s from IP5 [m]')
 plt.ylabel('[m]')
 plt.legend()
 # %%
@@ -265,13 +290,13 @@ print('These are the bbwc installed in the sequence', [ii for ii in collider.lhc
 
 
 # %%
-# here we need to load the value of the collider at 30 cm to compute the beam-wire distance at 30 cm
-collider_at_30cm =  xt.Multiline.from_json('./collider/collider_43.json')
+# here we need to load the value of the collider at 60/18 cm to compute the beam-wire distance at 30 cm
+collider_at_60_18cm =  collider #xt.Multiline.from_json('./collider/collider_43.json')
 for ii in [2,8]:
-        collider_at_30cm.vars[f'on_x{ii}h'] = 0.0
-        collider_at_30cm.vars[f'on_x{ii}v'] = 0.0
-        collider_at_30cm.vars[f'on_sep{ii}h'] = 0.0
-        collider_at_30cm.vars[f'on_sep{ii}v'] = 0.0
+        collider_at_60_18cm.vars[f'on_x{ii}h'] = 0.0
+        collider_at_60_18cm.vars[f'on_x{ii}v'] = 0.0
+        collider_at_60_18cm.vars[f'on_sep{ii}h'] = 0.0
+        collider_at_60_18cm.vars[f'on_sep{ii}v'] = 0.0
 
 epsilon_collimation = 3.5e-6
 wire_retraction = 0.003
@@ -281,14 +306,14 @@ proton_mass_in_GeV = 0.93827208816
 beta_rel_proton = np.sqrt(1- (proton_mass_in_GeV/collider.vars['nrj']._get_value())**2)
 # compute gamma_rel_proton
 gamma_rel_proton = 1/np.sqrt(1-beta_rel_proton**2)
-tw_special = collider_at_30cm['lhcb1'].twiss(method='4d')
+tw_special = collider_at_60_18cm['lhcb1'].twiss(method='4d')
 
-sigma_y_at_tctpv_4l1_b1 = np.sqrt(tw_special['bety','tctpv.4l1.b1']
+sigma_y_at_tctpv_4l1_b1 = np.sqrt(tw_special['bety','bbwc.b.4l1.b1']#'tctpv.4l1.b1']
                                 * epsilon_collimation
                                 / beta_rel_proton
                                 / gamma_rel_proton)
 
-sigma_x_at_tctph_4l5_b1 = np.sqrt(tw_special['betx','tctph.4l5.b1']
+sigma_x_at_tctph_4l5_b1 = np.sqrt(tw_special['betx', 'bbwc.i.4l5.b1']#'tctph.4l5.b1']
                                 * epsilon_collimation
                                 / beta_rel_proton
                                 / gamma_rel_proton)
@@ -348,25 +373,30 @@ plt.figure()
 plt.plot(tw_b1.s, (tw_b1.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
 plt.plot(tw_b1.s, (tw_b1.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
 plt.legend()
-plt.xlabel('s [m]')
+plt.xlabel('s [no units]')
 plt.ylabel('relative $\\beta$-beating')
 plt.title('Wires at IR1 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.16, 0.16)
 plt.grid()
 # set ticks only at the IPs
 plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+# save plot in pdf in folder plots
+plt.savefig('plots/beta_beating_b1_ir1.pdf')
 
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
 plt.plot(i_range, delta_qy, 's-', label='$\Delta$Qy')
-plt.plot(i_range, k_wire_ip1*i_range/350*betx_0_at_wire_ip1/4/np.pi, 'k--', label='k_wire_ip1')
-plt.plot(i_range, -k_wire_ip1*i_range/350*bety_0_at_wire_ip1/4/np.pi, 'k-.', label='k_wire_ip1')
+plt.plot(i_range, k_wire_ip1*i_range/350*betx_0_at_wire_ip1/4/np.pi, 'k--', label='linear model')
+plt.plot(i_range, -k_wire_ip1*i_range/350*bety_0_at_wire_ip1/4/np.pi, 'k--')
 plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
 plt.ylabel('Tune shift [-]')
-plt.title('Wires in IR1 for B1 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires in IR1 for B1 (TCT at 8$\sigma$)')
 plt.ylim(-.01, 0.021)
+
+# save plot in pdf in folder plots
+plt.savefig('plots/tune_shift_b1_ir1.pdf')
 
 # %%
 line.vars['i_wire_ip1.b1'] = 0.0
@@ -396,28 +426,34 @@ plt.figure()
 plt.plot(tw_b1.s, (tw_b1.betx-betx_0)/betx_0, label='$\Delta\\beta$x/$\\beta$x$_0$')
 plt.plot(tw_b1.s, (tw_b1.bety-bety_0)/bety_0, label='$\Delta\\beta$y/$\\beta$y$_0$')
 plt.legend()
-plt.xlabel('s [m]')
+plt.xlabel('s [no units]')
 plt.ylabel('relative $\\beta$-beating')
 plt.title('Wires at IR5 for B1 (350 A, TCT at 8$\sigma$)')
 plt.ylim(-.16, 0.16)
 plt.grid()
 # set ticks only at the IPs
 plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
+# save plot in pdf in folder plots
+plt.savefig('plots/beta_beating_b1_ir5.pdf')
 
 plt.figure()
 plt.plot(i_range, delta_qx, 's-', label='$\Delta$Qx')
 plt.plot(i_range, delta_qy, 's-', label='$\Delta$Qy')
-plt.plot(i_range, k_wire_ip5*i_range/350*betx_0_at_wire_ip5/4/np.pi, 'k--', label='k_wire_ip1')
-plt.plot(i_range, -k_wire_ip5*i_range/350*bety_0_at_wire_ip5/4/np.pi, 'k-.', label='k_wire_ip1')
+plt.plot(i_range, k_wire_ip5*i_range/350*betx_0_at_wire_ip5/4/np.pi, 'k--', label='linear model')
+plt.plot(i_range, -k_wire_ip5*i_range/350*bety_0_at_wire_ip5/4/np.pi, 'k--')
 plt.grid()
 plt.legend()
 plt.xlabel('Current [A]')
 plt.ylabel('Tune shift [-]')
-plt.title('Wires at IR5 for B1 (350 A, TCT at 8$\sigma$)')
+plt.title('Wires at IR5 for B1 (TCT at 8$\sigma$)')
 plt.ylim(-.01, 0.021)
+# save plot in pdf in folder plots
+plt.savefig('plots/tune_shift_b1_ir5.pdf')
 
 # %% Preparing the knobs for the matching
 my_k_list = [
+           'kq4.l1b1',
+           'kq4.r1b1',
            'kq5.l1b1',
            'kq5.r1b1', 
            'kq6.l1b1', 
@@ -433,8 +469,7 @@ my_k_list = [
            'kqtl11.l1b1', 
            'kqt12.l1b1', 
            'kqt13.l1b1',
-           'kq4.l5b1',
-           'kq4.r5b1',
+           
            'kq5.l5b1',
            'kq5.r5b1', 
            'kq6.l5b1', 
@@ -453,7 +488,9 @@ my_k_list = [
            ]
 
 # from /afs/cern.ch/eng/lhc/optics/runIII/LHC_LS2_2021-07-02.seq
-limits_dict = { 'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
+limits_dict = { 'kq4.l1b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq4.r1b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
                 'kq5.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq6.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq6.r1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
@@ -468,8 +505,7 @@ limits_dict = { 'kq5.l1b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML modified
                 'kqtl11.l1b1': ['kmin_mqtli','kmax_mqtli'], # MQTLI
                 'kqt12.l1b1': ['kmin_mqt','kmax_mqt'], # MQT
                 'kqt13.l1b1': ['kmin_mqt','kmax_mqt'], # MQT
-                'kq4.l5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
-                'kq4.r5b1': ['kmin_mqy_4.5k','kmax_mqy_4.5k'], # MQY
+                
                 'kq5.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq5.r5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
                 'kq6.l5b1': ['kmin_mqml_4.5k','kmax_mqml_4.5k'], # MQML
@@ -547,8 +583,9 @@ for  match_ip1 in [True, False]:
                 print(tw_b1.qx, tw_b1.qy)
 
                 variables_dict = {
+                                'kq4.l1b1_delta': {'limits': get_limits('kq4.l1b1_delta', 0.1),'step': 1e-8},
                                 'kq5.l1b1_delta': {'limits': get_limits('kq5.l1b1_delta', 0.1),'step': 1e-8},
-                                'kq6.l1b1_delta': {'limits': get_limits('kq6.l1b1_delta', 0.1),'step': 1e-8},
+                                #'kq6.l1b1_delta': {'limits': get_limits('kq6.l1b1_delta', 0.1),'step': 1e-8},
                                 'kq7.l1b1_delta': {'limits': get_limits('kq7.l1b1_delta', 0.1),'step': 1e-8},
                                 'kq8.l1b1_delta': {'limits': get_limits('kq8.l1b1_delta', 0.1),'step': 1e-8},
                                 'kq9.l1b1_delta': {'limits': get_limits('kq9.l1b1_delta', 0.1),'step': 1e-8},
@@ -560,8 +597,9 @@ for  match_ip1 in [True, False]:
 
 
                 variables_list = [
+                                'kq4.l1b1_delta', 
                                 'kq5.l1b1_delta', 
-                                'kq6.l1b1_delta',
+                                #'kq6.l1b1_delta',
                                 'kq7.l1b1_delta',
                                 'kq8.l1b1_delta',
                                 'kq9.l1b1_delta',
@@ -595,7 +633,7 @@ for  match_ip1 in [True, False]:
                 print(tw_b1.qx, tw_b1.qy)
         
                 variables_dict = {
-                                'kq4.l5b1_delta': {'limits': get_limits('kq4.l5b1_delta', 0.05),'step': 1e-8},
+                                #'kq4.l5b1_delta': {'limits': get_limits('kq4.l5b1_delta', 0.05),'step': 1e-8},
                                 'kq5.l5b1_delta': {'limits': get_limits('kq5.l5b1_delta', 0.05),'step': 1e-8},
                                 'kq6.l5b1_delta': {'limits': get_limits('kq6.l5b1_delta', 0.05),'step': 1e-8},
                                 'kq7.l5b1_delta': {'limits': get_limits('kq7.l5b1_delta', 0.05),'step': 1e-8},
@@ -608,9 +646,9 @@ for  match_ip1 in [True, False]:
                                 }      
 
 
-                variables_list = ['kq4.l5b1_delta', 
+                variables_list = [#'kq4.l5b1_delta', 
                                 'kq5.l5b1_delta', 
-                                #'kq6.l5b1_delta',
+                                'kq6.l5b1_delta',
                                 'kq7.l5b1_delta',
                                 'kq8.l5b1_delta',
                                 'kq9.l5b1_delta',
@@ -699,7 +737,7 @@ for  match_ip1 in [True, False]:
         knob_dict['kmax_relative_variation_percent'] = kmax_relative_variation_percent
         # normalize the dictionary delta_dict by the scalar knob_dict['k_wire_ip1']
         knob_dict[f'k_delta/k_wire_ip{my_ip}'] = {ii: delta_dict[ii]/knob_dict[f'k_wire_ip{my_ip}'] for ii in delta_dict}
-        with open(f'knob_dict_350A_8sigma@30cm_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
+        with open(f'knob_dict_350A_8sigma@60.18_ip{my_ip}_beta{my_optics}_{my_beam}.json', 'w') as f:
                 json.dump(knob_dict, f, indent=4)
 
 
@@ -715,9 +753,11 @@ for  match_ip1 in [True, False]:
         plt.xticks([tw_b1['s','ip1'], tw_b1['s','ip2'], tw_b1['s','ip5'], tw_b1['s','ip8']], ['IP1', 'IP2', 'IP5', 'IP8'])
         plt.xlabel('s along the ring [no units]')
         plt.ylabel('relative $\\beta$-beating')
-        plt.title(f'Wire at IP{my_ip}@350 A, {my_tct}@8$\sigma@30cm$ with optics at {my_optics} cm')
+        plt.title(f'Wire at IR{my_ip}@350 A, TCT@8$\sigma$ with optics at {my_optics} cm')
         plt.grid()
         plt.legend(loc='lower right')
+        # save plot in pdf in folder plots
+        plt.savefig(f'plots/beta_beating_b1_ip{my_ip}_{my_optics}_{my_beam}.pdf')
 
         for ii in [my_ip]:
                 plt.figure()
@@ -728,7 +768,7 @@ for  match_ip1 in [True, False]:
                 plt.grid()
                 plt.xlabel(f's from IP{my_ip} [m]')
                 plt.ylabel('relative $\\beta$-beating')
-                plt.title(f'Wire at IP{my_ip}@350 A, {my_tct}@8$\sigma@30cm$ with optics at {my_optics} cm')
+                plt.title(f'Wire at IR{my_ip}@350 A, TCT@8$\sigma$ with optics at {my_optics} cm')
                 plt.legend(loc='upper left')
 
                 
@@ -755,6 +795,7 @@ for  match_ip1 in [True, False]:
                 plt.plot(tw_b1.s-s0, tw_b1.bety, 'b', label='$\\beta_y$')
                 plt.ylabel('$\\beta_x$ and $\\beta_y$ [m]')
                 plt.legend(loc='lower right')
+                plt.savefig(f'plots/beta_beating_b1_ip{my_ip}_{my_optics}_{my_beam}_zoom.pdf')
 
                 plt.figure()
                 plt.plot(tw_b1.s-s0, tw_b1.dx, '.-b', label='dx')
@@ -762,13 +803,14 @@ for  match_ip1 in [True, False]:
                 plt.plot(tw_b1.s-s0, tw_ref.dx, 'ob', label='dx$_0$')
                 plt.plot(tw_b1.s-s0, tw_ref.dy, 'or', label='dy$_0$')
                 plt.xlim(-700,5)
-                plt.ylim(-2.5, 0.5)
+                plt.ylim(-2.5, 2.5)
                 plt.legend()
                 plt.grid()
                 plt.xlabel(f's from IP{my_ip} [m]')
                 plt.ylabel('[m]')
-                plt.title(f'Wire at IP{my_ip}@350 A, {my_tct}@8$\sigma@30cm$ with optics at {my_optics} cm')
-                
+                plt.title(f'Wire at IR{my_ip}@350 A, TCT@8$\sigma$ with optics at {my_optics} cm')
+                plt.savefig(f'plots/beta_beating_b1_ip{my_ip}_{my_optics}_{my_beam}_dispersion.pdf')
+
                 # print the k in my_k_list
                 
 
@@ -779,31 +821,44 @@ for  match_ip1 in [True, False]:
 
 
 # %%
-my_current = 50
+for match_ip1 in [True, False]:
+        for my_current in [0, 50, 100, 150, 200, 250, 300, 350]:
 
-if match_ip1:
-        line.vars['i_wire_ip1.b1'] = my_current
-        line.vars['i_wire_ip5.b1'] = 0.0
-else:
-        line.vars['i_wire_ip1.b1'] = 0.0
-        line.vars['i_wire_ip5.b1'] = my_current
+                if match_ip1:
+                        line.vars['i_wire_ip1.b1'] = my_current
+                        line.vars['i_wire_ip5.b1'] = 0.0
+                        my_ip = 1
+                        my_x_position = -15000
+                else:
+                        line.vars['i_wire_ip1.b1'] = 0.0
+                        line.vars['i_wire_ip5.b1'] = my_current
+                        my_ip = 5
+                        my_x_position = 10000
 
-tw_b1 = line.twiss(method='4d')
 
-print(tw_b1.qx-tw_ref.qx, tw_b1.qy-tw_ref.qy)
-for ii in [my_ip]:
-        plt.figure()
-        s0 = tw_b1['s',f'ip{ii}']
-        plt.plot(tw_b1.s-s0, (tw_b1.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
-        plt.plot(tw_b1.s-s0, (tw_b1.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y\\beta_{y0}$')
-        #plt.xlim(-700,5)
-        plt.grid()
-        plt.xlabel(f's from IP{my_ip} [m]')
-        plt.ylabel('relative $\\beta$-beating')
-        plt.title(f'Wire at IP{my_ip}@{my_current} A, {my_tct}@8$\sigma@30cm$ with optics at {my_optics} cm')
-        plt.legend(loc='upper left')
-        plt.ylim(-.028, 0.028)
+                tw_b1 = line.twiss(method='4d')
 
+                print(tw_b1.qx-tw_ref.qx, tw_b1.qy-tw_ref.qy)
+                for ii in [my_ip]:
+                        plt.figure()
+                        s0 = tw_b1['s',f'ip{ii}']
+                        plt.plot(tw_b1.s-s0, (tw_b1.betx-tw_ref.betx)/tw_ref.betx, '.-', label='$\Delta\\beta_x/\\beta_{x0}$')
+                        plt.plot(tw_b1.s-s0, (tw_b1.bety-tw_ref.bety)/tw_ref.bety, '.-', label='$\Delta\\beta_y/\\beta_{y0}$')
+                        #plt.xlim(-700,5)
+                        plt.grid()
+                        plt.xlabel(f's from IP{my_ip} [m]')
+                        plt.ylabel('relative $\\beta$-beating')
+                        plt.title(f'Wire at IP{my_ip}@{my_current} A, TCT@8$\sigma$ with optics at {my_optics} cm')
+                        plt.legend(loc='upper left')
+                        plt.ylim(-.04, 0.04)
+                        # add in the plot the text of tw_b1.qx-tw_ref.qx, tw_b1.qy-tw_ref.qy with a white background
+
+                        t = plt.text(my_x_position, -0.025, f'''$\Delta Q_x$ = {tw_b1.qx-tw_ref.qx:.2e}
+$\Delta Q_y$ = {tw_b1.qy-tw_ref.qy:.2e}''', fontsize=12)
+                        t.set_bbox(dict(facecolor='white', edgecolor='red'))
+
+                        #make the background of the text white
+                        plt.savefig(f'plots/beta_beating_b1_ip{my_ip}_{my_optics}_{my_beam}_{my_current}A.png')
 # %%
 epsilon_geometric = epsilon_collimation/beta_rel_proton/gamma_rel_proton
 
@@ -815,36 +870,57 @@ line.vars['co_x_wire_ip5.b1'] = 0
 line.vars['co_y_wire_ip5.b1'] = 0
 
 line.vars['on_x1'] = 160.0
+line.vars['on_x5'] = 160.0
+line.vars['on_sep1'] = 0.0
+line.vars['on_sep5'] = 0.0
+line.vars['on_disp'] = 1.0
+
 
 tw_b1 = line.twiss(method='4d')
 
-line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'tctpv.4l1.b1']
-line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'tctpv.4l1.b1']
-line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'tctph.4l5.b1']
-line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'tctph.4l5.b1']
+line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'bbwc.t.4l1.b1']
+line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'bbwc.t.4l1.b1']
+line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'bbwc.i.4l5.b1']
+line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'bbwc.i.4l5.b1']
 
 line.vars['i_wire_ip1.b1'] = 350.0
-tw_b1_wire_ip1_on = line.twiss(method='4d')
-plt.plot(tw_b1_wire_ip1_on['mux'], (tw_b1_wire_ip1_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
+line.vars['i_wire_ip5.b1'] = 0.0
 
-plt.plot(tw_b1_wire_ip1_on['muy'], (tw_b1_wire_ip1_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
+tw_b1_wire_ip1_on = line.twiss(method='4d')
+s_ip1 = tw_b1_wire_ip1_on['s', 'ip1']
+plt.plot(tw_b1_wire_ip1_on['s']-s_ip1, (tw_b1_wire_ip1_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
+
+plt.plot(tw_b1_wire_ip1_on['s']-s_ip1, (tw_b1_wire_ip1_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
 plt.ylabel('[$\sigma_{coll}$]')
 plt.legend()
 # show ticks of the IPs only
 #plt.xticks([tw_b1_wire_ip1_on['s','ip1'], tw_b1_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
-plt.title('Wires at IR1 for B1 (350 A, TCT at 8$\sigma$) and on_x1 = 160')
-plt.xlabel('x and y phase [2$\pi$]')
+plt.title('Wires at IR1 for B1 (350 A, TCT at 8$\sigma$) and on_x1/5 = 160')
+plt.xlabel('s [no units]')
 
+#set ticks only at the IPs
+plt.xticks([tw_b1_wire_ip1_on['s','ip1']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip2']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip5']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip8']-s_ip1], ['IP1', 'IP2', 'IP5', 'IP8' ])
+plt.ylim([-0.14,0.14])
+plt.grid()
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
 line.vars['co_x_wire_ip1.b1'] = 0
 line.vars['co_y_wire_ip1.b1'] = 0
 line.vars['co_x_wire_ip5.b1'] = 0
 line.vars['co_y_wire_ip5.b1'] = 0
-
-
+line.vars['i_wire_ip1.b1'] = 0.0
+line.vars['i_wire_ip5.b1'] = 0.0
+line.vars['on_sep1'] = 0.0
+line.vars['on_sep5'] = 0.0
+line.vars['on_disp'] = 0.0
+plt.savefig('plots/dipolar_contribution_IR1_B1.pdf')
 
 # %%
+
+epsilon_geometric = epsilon_collimation/beta_rel_proton/gamma_rel_proton
 
 line.vars['i_wire_ip1.b1'] = 0
 line.vars['i_wire_ip5.b1'] = 0
@@ -853,25 +929,41 @@ line.vars['co_y_wire_ip1.b1'] = 0
 line.vars['co_x_wire_ip5.b1'] = 0
 line.vars['co_y_wire_ip5.b1'] = 0
 
+line.vars['on_x1'] = 160.0
 line.vars['on_x5'] = 160.0
+line.vars['on_sep1'] = 0.0
+line.vars['on_sep5'] = 0.0
+line.vars['on_disp'] = 1.0
+
 tw_b1 = line.twiss(method='4d')
 
-line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'tctpv.4l1.b1']
-line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'tctpv.4l1.b1']
-line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'tctph.4l5.b1']
-line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'tctph.4l5.b1']
+line.vars['co_x_wire_ip1.b1'] = tw_b1['x', 'bbwc.t.4l1.b1']
+line.vars['co_y_wire_ip1.b1'] = tw_b1['y', 'bbwc.t.4l1.b1']
+line.vars['co_x_wire_ip5.b1'] = tw_b1['x', 'bbwc.i.4l5.b1']
+line.vars['co_y_wire_ip5.b1'] = tw_b1['y', 'bbwc.i.4l5.b1']
 
+line.vars['i_wire_ip1.b1'] = 0.0
 line.vars['i_wire_ip5.b1'] = 350.0
-tw_b1_wire_ip5_on = line.twiss(method='4d')
 
-plt.plot(tw_b1_wire_ip5_on['mux'], (tw_b1_wire_ip5_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
-plt.plot(tw_b1_wire_ip5_on['muy'], (tw_b1_wire_ip5_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
+tw_b1_wire_ip1_on = line.twiss(method='4d')
+s_ip1 = tw_b1_wire_ip1_on['s', 'ip1']
+plt.plot(tw_b1_wire_ip1_on['s']-s_ip1, (tw_b1_wire_ip1_on['x']- tw_b1['x'])/np.sqrt(tw_b1['betx']*epsilon_geometric), label='x')
+
+plt.plot(tw_b1_wire_ip1_on['s']-s_ip1, (tw_b1_wire_ip1_on['y']- tw_b1['y'])/np.sqrt(tw_b1['bety']*epsilon_geometric), label='y')
 plt.ylabel('[$\sigma_{coll}$]')
-plt.xlabel('x and y phase [2$\pi$]')
 plt.legend()
 # show ticks of the IPs only
-#plt.xticks([tw_b1_wire_ip5_on['mux','ip1'], tw_b1_wire_ip5_on['s','ip5']], ['IP1', 'IP5'])
-plt.title('Wires at IR1 for b1 (350 A, TCT at 8$\sigma$) and on_x5 = 160')
+#plt.xticks([tw_b1_wire_ip1_on['s','ip1'], tw_b1_wire_ip1_on['s','ip5']], ['IP1', 'IP5'])
+plt.title('Wires at IR5 for B1 (350 A, TCT at 8$\sigma$) and on_x1/5 = 160')
+plt.xlabel('s [no units]')
+
+#set ticks only at the IPs
+plt.xticks([tw_b1_wire_ip1_on['s','ip1']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip2']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip5']-s_ip1,
+            tw_b1_wire_ip1_on['s','ip8']-s_ip1], ['IP1', 'IP2', 'IP5', 'IP8' ])
+plt.ylim([-0.14,0.14])
+plt.grid()
 
 line.vars['on_x1'] = 0.0
 line.vars['on_x5'] = 0.0
@@ -879,4 +971,172 @@ line.vars['co_x_wire_ip1.b1'] = 0
 line.vars['co_y_wire_ip1.b1'] = 0
 line.vars['co_x_wire_ip5.b1'] = 0
 line.vars['co_y_wire_ip5.b1'] = 0
+line.vars['i_wire_ip1.b1'] = 0.0
+line.vars['i_wire_ip5.b1'] = 0.0
+line.vars['on_sep1'] = 0.0
+line.vars['on_sep5'] = 0.0
+line.vars['on_disp'] = 0.0
+plt.savefig('plots/dipolar_contribution_IR5_B1.pdf')
+# %%
+# import json knob_dict_350A_8sigma@60.18_ip1_beta60.18_b1.json
+with open('knob_dict_350A_8sigma@60.18_ip1_beta60.18_b1.json', 'r') as f:
+        knob_dict_ip1 = json.load(f)
+
+
+k_0 = knob_dict_ip1['k_0']
+k = knob_dict_ip1['k']
+k_max = knob_dict_ip1['kmax']
+k_min = knob_dict_ip1['kmin']
+
+for ii in k_max.keys():
+        if ii in ['kq5.l1b1', 'kq7.l1b1', 'kq9.l1b1']:
+                k_max[ii] = -k_max[ii]
+                k_min[ii] = -k_min[ii]
+
+plt.figure()
+
+for ii in k_0.keys():
+        plt.plot([ii, ii], [k_min[ii]*1e3, k_max[ii]*1e3], 'k')
+#plot k_0
+plt.plot(k_0.keys(), np.array(list(k_0.values()))*1e3,'x',color='red', label='I$_W$ = 0 A')
+plt.plot(k_0.keys(), np.array(list(k.values()))*1e3,'xg', label='I$_W$ = 350 A')
+
+plt.ylabel('K1 [1E-3 m$^{-2}$]')
+plt.xticks(rotation=45)
+plt.grid()
+plt.legend()
+#rotate xlabel
+plt.xticks(rotation=45)
+plt.savefig('plots/limits_b1_ip1.pdf', bbox_inches='tight')
+
+PC_interlock = {
+ 'kq4.l1b1': 1.858034325811023, # I assumed the kq4.l5b1
+ 'kq5.l1b1': 4.147495270516329,
+ #'kq6.l1b1': 3.7826052833518413,
+ 'kq7.l1b1': 0.963476977946844,
+ 'kq8.l1b1': 0.8376809301554381,
+ 'kq9.l1b1': 0.9423479800379825,
+ 'kq10.l1b1': 0.9312724941269775,
+ 'kqtl11.l1b1': 22.056659601675065,
+ 'kqt12.l1b1': 16.183785114676507,
+ 'kqt13.l1b1': 5.070593747702249}
+
+plt.figure()
+for ii in k_0.keys():
+        plt.plot([ii, ii], [-PC_interlock[ii], PC_interlock[ii]], 'k')
+plt.xticks(rotation=45)
+for ii in k_0.keys():
+        plt.plot(ii, (k[ii]/k_0[ii]-1)*100, 'or')
+plt.grid()
+
+plt.title('Wire at IR1 for B1 (350 A, TCT at 8$\sigma$)')
+plt.ylabel('K1/K1$_0$ - 1 [%]')
+plt.savefig('plots/pc_interlock_ip1_b1.pdf', bbox_inches='tight')
+
+plt.figure()
+for ii in k_0.keys():
+        deltaK1 = PC_interlock[ii]*k_0[ii]/100*1000
+        plt.plot([ii, ii], [-deltaK1, deltaK1], 'k')
+plt.xticks(rotation=45)
+for ii in k_0.keys():
+        plt.plot(ii, (k[ii]-k_0[ii])*1000, 'or')
+plt.grid()
+
+plt.title('Wire at IR1 for B1 (350 A, TCT at 8$\sigma$)')
+plt.ylabel('$\Delta$K1 [1E-3 m$^{-2}$]')
+plt.ylim(-0.23,.23)
+plt.savefig('plots/pc_interlock_ip1_b1_new.pdf', bbox_inches='tight')
+
+# %%
+# import json knob_dict_350A_8sigma@60.18_ip1_beta60.18_b1.json
+with open('knob_dict_350A_8sigma@60.18_ip5_beta60.18_b1.json', 'r') as f:
+        knob_dict_ip1 = json.load(f)
+
+
+k_0 = knob_dict_ip1['k_0']
+k = knob_dict_ip1['k']
+k_max = knob_dict_ip1['kmax']
+k_min = knob_dict_ip1['kmin']
+
+for ii in k_max.keys():
+        if ii in ['kq5.l5b1', 'kq7.l5b1', 'kq9.l5b1']:
+                k_max[ii] = -k_max[ii]
+                k_min[ii] = -k_min[ii]
+
+plt.figure()
+
+for ii in k_0.keys():
+        plt.plot([ii, ii], [k_min[ii]*1e3, k_max[ii]*1e3], 'k')
+#plot k_0
+plt.plot(k_0.keys(), np.array(list(k_0.values()))*1e3,'x',color='red', label='I$_W$ = 0 A')
+plt.plot(k_0.keys(), np.array(list(k.values()))*1e3,'xg', label='I$_W$ = 350 A')
+
+plt.ylabel('K1 [1E-3 m$^{-2}$]')
+plt.xticks(rotation=45)
+plt.grid()
+plt.legend()
+#rotate xlabel
+plt.xticks(rotation=45)
+# ensure that the padding is ok
+plt.savefig('plots/limits_b1_ip5.pdf', bbox_inches='tight')
+
+PC_interlock = {
+ 'kq5.l5b1': 3.0080049880263267,
+ 'kq7.l5b1': 0.9193190682566542,
+ 'kq6.l5b1': 3.7826052833518413, #'kq6.l1b1' to be checked
+ 'kq8.l5b1': 0.8274611982933863,
+ 'kq9.l5b1': 0.9748041986676137,
+ 'kq10.l5b1': 0.9168942804667852,
+ 'kqtl11.l5b1': 6.911126281259772,
+ 'kqt12.l5b1': 10.089955234579852,
+ 'kqt13.l5b1': 15.553351357430348}
+
+plt.figure()
+for ii in k_0.keys():
+        plt.plot([ii, ii], [-PC_interlock[ii], PC_interlock[ii]], 'k')
+plt.xticks(rotation=45)
+for ii in k_0.keys():
+        plt.plot(ii, (k[ii]/k_0[ii]-1)*100, 'or')
+plt.grid()
+
+plt.title('Wire at IR5 for B1 (350 A, TCT at 8$\sigma$)')
+plt.ylabel('K1/K1$_0$ - 1 [%]')
+plt.savefig('plots/pc_interlock_ip5_b1.pdf', bbox_inches='tight')
+
+plt.figure()
+for ii in k_0.keys():
+        deltaK1 = PC_interlock[ii]*k_0[ii]/100*1000
+        plt.plot([ii, ii], [-deltaK1, deltaK1], 'k')
+plt.xticks(rotation=45)
+for ii in k_0.keys():
+        plt.plot(ii, (k[ii]-k_0[ii])*1000, 'or')
+plt.grid()
+
+plt.title('Wire at IR5 for B1 (350 A, TCT at 8$\sigma$)')
+plt.ylabel('$\Delta$K1 [1E-3 m$^{-2}$]')
+plt.ylim(-0.23,.23)
+
+plt.savefig('plots/pc_interlock_ip5_b1_new.pdf', bbox_inches='tight')
+
+# %%
+{'RQ5.L1B1': 4.147495270516329,
+ 'RQ6.L1B1': 3.7826052833518413,
+ 'RQ7.L1B1': 0.963476977946844,
+ 'RQ8.L1B1': 0.8376809301554381,
+ 'RQ9.L1B1': 0.9423479800379825,
+ 'RQ10.L1B1': 0.9312724941269775,
+ 'RQTL11.L1B1': 22.056659601675065,
+ 'RQT12.L1B1': 16.183785114676507,
+ 'RQT13.L1B1': 5.070593747702249}
+
+{'RQ4.L5B1': 1.858034325811023,
+ 'RQ5.L5B1': 3.0080049880263267,
+ 'RQ7.L5B1': 0.9193190682566542,
+ 'RQ8.L5B1': 0.8274611982933863,
+ 'RQ9.L5B1': 0.9748041986676137,
+ 'RQ10.L5B1': 0.9168942804667852,
+ 'RQTL11.L5B1': 6.911126281259772,
+ 'RQT12.L5B1': 10.089955234579852,
+ 'RQT13.L5B1': 15.553351357430348}
+
 # %%
